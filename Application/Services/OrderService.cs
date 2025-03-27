@@ -12,9 +12,9 @@ namespace ECommerce.Application.Services
             _OrderRepository = orderRepository;
         }
 
-        public async Task CreateOrder(Order order)
+        public async Task<bool> CreateOrder(Order order)
         {
-            await _OrderRepository.setOrder(order);
+            return await _OrderRepository.setOrder(order);
         }
 
     }

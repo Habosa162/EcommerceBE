@@ -42,10 +42,15 @@ namespace ECommerce.Infrastructure.Repositories
             {
                 await _context.Orders.AddAsync(order);
                 await _context.SaveChangesAsync();
+                return true;
             }
-            catch
+            catch(Exception e)
             {
-               
+             if(e is DbUpdateException)
+                {
+                    return false;
+                }
+                throw;
             }
 
         }
