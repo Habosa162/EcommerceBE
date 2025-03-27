@@ -2,7 +2,8 @@
 
 namespace ECommerce.Application.Services
 {
-    public class OrderApplication : IOrderApplication
+    public class OrderService : IOrderService
     {
+
     }
 }

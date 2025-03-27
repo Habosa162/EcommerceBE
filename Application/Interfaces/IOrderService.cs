@@ -1,6 +1,6 @@
 ﻿namespace ECommerce.Application.Interfaces
 {
-    public interface IOrderApplication
+    public interface IOrderService
     {
     }
 }

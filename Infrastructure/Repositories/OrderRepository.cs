@@ -36,10 +36,18 @@ namespace ECommerce.Infrastructure.Repositories
             return await _context.Orders.ToListAsync();
         }
 
-        public async Task setOrder(Order order)
+        public async Task<bool> setOrder(Order order)
         {
-            await _context.Orders.AddAsync(order);
-            await _context.SaveChangesAsync();  
+            try
+            {
+                await _context.Orders.AddAsync(order);
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+               
+            }
+
         }
 
         public async Task updateOrder(Order order)
