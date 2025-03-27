@@ -1,8 +1,8 @@
-﻿using EComm.Domain.Models;
-using EComm.Infrastructure.Interfaces;
+﻿using ECommerce.Domain.Models;
+using ECommerce.Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace EComm.Infrastructure.Repositories
+namespace ECommerce.Infrastructure.Repositories
 {
     public class OrderRepository : IOrderRepository
     {

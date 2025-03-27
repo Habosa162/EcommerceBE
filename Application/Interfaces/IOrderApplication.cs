@@ -1,4 +1,4 @@
-﻿namespace EComm.Application.Interfaces
+﻿namespace ECommerce.Application.Interfaces
 {
     public interface IOrderApplication
     {

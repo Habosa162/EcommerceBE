@@ -1,6 +1,6 @@
-﻿using EComm.Domain.Models;
+﻿using ECommerce.Domain.Models;
 
-namespace EComm.Infrastructure.Interfaces
+namespace ECommerce.Infrastructure.Interfaces
 {
     public interface ISubCategoryRepository
     {

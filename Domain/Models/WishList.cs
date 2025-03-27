@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace EComm.Domain.Models
+namespace ECommerce.Domain.Models
 {
     public class WishList
     {
@@ -13,7 +13,6 @@ namespace EComm.Domain.Models
 
         [Required, ForeignKey("Customer")]
         public string CustomerId { get; set; }
-
         public Product? Product { get; set; }
         public AppUser? Customer { get; set; }
     }

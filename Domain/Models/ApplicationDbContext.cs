@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using ECommerce.Domain.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace EComm.Domain.Models
+namespace ECommerce.Domain.Models
 {
     public class ApplicationDbContext : IdentityDbContext<AppUser>
     {
@@ -20,8 +21,6 @@ namespace EComm.Domain.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-
 
 
             modelBuilder.Entity<Shipping>()

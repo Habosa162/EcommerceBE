@@ -1,7 +1,7 @@
-﻿using EComm.Domain.Models;
-using EComm.Infrastructure.Interfaces;
+﻿using ECommerce.Domain.Models;
+using ECommerce.Infrastructure.Interfaces;
 
-namespace EComm.Application.Services
+namespace ECommerce.Application.Services
 {
     public class WishlistService
     {

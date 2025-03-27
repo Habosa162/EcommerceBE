@@ -1,13 +1,13 @@
-﻿using EComm.API.DTOs;
-using EComm.Application.Interfaces;
-using EComm.Domain.Models;
+﻿using ECommerce.API.DTOs;
+using ECommerce.Application.Interfaces;
+using ECommerce.Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace EComm.Application.Services
+namespace ECommerce.Application.Services
 {
     public class AuthService : IAuthService
     {
@@ -65,5 +65,9 @@ namespace EComm.Application.Services
         {
             throw new NotImplementedException();
         }
+
+
+
+
     }
 }

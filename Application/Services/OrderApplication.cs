@@ -1,6 +1,6 @@
-﻿using EComm.Application.Interfaces;
+﻿using ECommerce.Application.Interfaces;
 
-namespace EComm.Application.Services
+namespace ECommerce.Application.Services
 {
     public class OrderApplication : IOrderApplication
     {

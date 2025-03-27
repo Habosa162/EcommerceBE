@@ -1,7 +1,7 @@
-﻿using EComm.API.DTOs;
-using EComm.Domain.Models;
+﻿using ECommerce.API.DTOs;
+using ECommerce.Domain.Models;
 
-namespace EComm.Application.Interfaces
+namespace ECommerce.Application.Interfaces
 {
     public interface IAuthService
     {
