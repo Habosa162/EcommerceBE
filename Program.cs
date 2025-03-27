@@ -1,6 +1,7 @@
 using ECommerce.Domain.Models;
 using ECommerce.Infrastructure.Interfaces;
 using ECommerce.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,23 +14,23 @@ namespace ECommerce
             var builder = WebApplication.CreateBuilder(args);
 
 
-           
-
-            // Add services to the container.
-
-
-            builder.Services.AddAuthorization();
-            builder.Services.AddAuthentication();
-
+            // Configure Database Context
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("conn")));
             // Configure Identity
             builder.Services.AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-            //.AddApiEndpoints();
-           
-            // Configure Database Context
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("conn")));
+
+            // Add services to the container.
+            builder.Services.AddAuthorization();
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            });
+
 
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
