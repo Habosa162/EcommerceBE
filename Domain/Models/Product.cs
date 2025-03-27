@@ -10,10 +10,7 @@ namespace ECommerce.Domain.Models
 
         [Required, MaxLength(200)]
         public string Name { get; set; } = string.Empty;
-
-
         public string? color { get; set; }
-
 
         [MaxLength(500)]
         public string? Description { get; set; }
@@ -42,6 +39,8 @@ namespace ECommerce.Domain.Models
         [NotMapped]
         public decimal FinalPrice => Price - DiscountAmount < 0 ? 0 : Price - DiscountAmount;
 
+        public bool IsAccepted { get; set; } = true;
+        public bool IsDeleted { get; set; } = false; 
         // Relationships
         public SubCategory? SubCategory { get; set; }
 
