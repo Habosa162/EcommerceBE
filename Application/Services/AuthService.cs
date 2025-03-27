@@ -12,10 +12,16 @@ namespace ECommerce.Application.Services
     public class AuthService : IAuthService
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<AppUser> _roleManager;
         private readonly IConfiguration _configuration;
-        public AuthService(IConfiguration configuration)
+        public AuthService(IConfiguration configuration
+            , RoleManager<AppUser> roleManager
+            , UserManager<AppUser> userManager
+            )
         {
-            _configuration = configuration; 
+            _configuration = configuration;
+            _roleManager = roleManager;
+            _userManager = userManager;
         }
 
         //test
@@ -28,7 +34,7 @@ namespace ECommerce.Application.Services
 
                 var claims = new[]
                 {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), 
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Name, user.FirstName),
             new Claim(ClaimTypes.Name, user.LastName),
             //new Claim(ClaimTypes.Role, user.Role),
@@ -36,7 +42,7 @@ namespace ECommerce.Application.Services
 
                 var token = new JwtSecurityToken(
                     issuer: _configuration["Jwt:Issuer"],
-                    audience: _configuration["Jwt:Audience"], 
+                    audience: _configuration["Jwt:Audience"],
                     claims: claims,
                     expires: DateTime.UtcNow.AddDays(3),
                     signingCredentials: credentials
@@ -49,11 +55,55 @@ namespace ECommerce.Application.Services
                 return null;
             }
         }
-        public bool IsAuthenticated => throw new NotImplementedException();
 
-        public Task<string> login(string email, string password)
+
+
+        public async Task<string> register(RegisterDTO registerDTO, string role)
         {
-            throw new NotImplementedException();
+            if (registerDTO == null)
+            {
+                return null
+            }
+            if(await IsAuthenticated(registerDTO.Email))
+            {
+                return "existed";
+            }
+
+            var user = new AppUser
+            {
+                FirstName = registerDTO.FName,
+                LastName = registerDTO.LName,
+                Email = registerDTO.Email,
+                UserName = registerDTO.Email,
+                ProfileImage = registerDTO.ProfileIamge
+            };
+            await _userManager.CreateAsync(user, registerDTO.Password);
+            if (!string.IsNullOrEmpty(role))
+            {
+                await _userManager.AddToRoleAsync(user, role);
+            }
+            return GenerateJwtToken(user);  
+        }
+
+        public async Task<string> login(LoginDTO LoginUser)
+        {
+
+            if(await IsAuthenticated(LoginUser.Email))
+            {
+                var user = await _userManager.FindByEmailAsync(LoginUser.Email);
+                if (await _userManager.CheckPasswordAsync(user, LoginUser.Password))
+                {
+                    return GenerateJwtToken(user);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+               return null;
+            }
         }
 
         public Task<bool> logout()
@@ -61,13 +111,11 @@ namespace ECommerce.Application.Services
             throw new NotImplementedException();
         }
 
-        public Task<string> register(RegisterDTO registerDTO)
+        public async Task<bool> IsAuthenticated(string email)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByNameAsync(email);
+            return !(user == null);
         }
-
-
-
 
     }
 }

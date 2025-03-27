@@ -1,3 +1,5 @@
+using ECommerce.Application.Interfaces;
+using ECommerce.Application.Services;
 using ECommerce.Domain.Models;
 using ECommerce.Infrastructure.Interfaces;
 using ECommerce.Infrastructure.Repositories;
@@ -31,10 +33,15 @@ namespace ECommerce
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             });
 
-
+            //Repositories
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+
+
+            //Services  
+            builder.Services.AddScoped<IAuthService, AuthService>();    
+
 
 
             builder.Services.AddControllers();
