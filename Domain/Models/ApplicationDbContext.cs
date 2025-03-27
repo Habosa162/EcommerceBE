@@ -1,4 +1,5 @@
 ﻿using ECommerce.Domain.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,7 +22,7 @@ namespace ECommerce.Domain.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
+            SeedRoles(modelBuilder); // Seed roles
 
             modelBuilder.Entity<Shipping>()
                 .HasOne(s => s.Order)
@@ -29,6 +30,16 @@ namespace ECommerce.Domain.Models
                 .HasForeignKey<Shipping>(s => s.OrderId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
+
+        private static void SeedRoles(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<IdentityRole>().HasData(
+                new IdentityRole { ConcurrencyStamp = "1", Name = "Admin", NormalizedName = "ADMIN" },
+                new IdentityRole { ConcurrencyStamp = "2", Name = "Merchant", NormalizedName = "MERCHANT" },
+                new IdentityRole { ConcurrencyStamp = "3", Name = "Customer", NormalizedName = "CUSTOMER" }
+            );
+        }
+
 
 
 
