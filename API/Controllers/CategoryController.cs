@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ECommerce.API.DTOs;
+using ECommerce.Domain.Models;
+using ECommerce.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,36 +11,53 @@ namespace ECommerce.API.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        // GET: api/<CategoryController>
+
+        private readonly ICategoryRepository _categoryRepository;
+        public CategoryController(ICategoryRepository categoryRepository)
+        {
+            _categoryRepository = categoryRepository;
+        }
+
+        
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
         {
-            return new string[] { "value1", "value2" };
+           var categories = await _categoryRepository.GetAllCategories();
+            return Ok(categories);
         }
 
-        // GET api/<CategoryController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<Category>> GetCategory(int id)
         {
-            return "value";
+            var category = await _categoryRepository.GetCategory(id);
+            if (category == null)
+                return NotFound();
+
+            return Ok(category);
         }
 
-        // POST api/<CategoryController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<CategoryController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<CategoryController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> DeleteCategory(int id)
         {
+            await _categoryRepository.DeleteCategory(id);
+            return NoContent();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Category>> CreateCategory(CategoryDTO category)
+        {
+             await _categoryRepository.SetCategory(category);
+            return Ok("category Created");
+        }
+
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Category>> UpdateCategory(int id,CategoryDTO catgory)
+        {
+          
+           await _categoryRepository.UpdateCategory(id, catgory);
+            
+            return Ok($"category:{catgory.Name} is updated");
         }
     }
 }

@@ -1,12 +1,13 @@
-﻿using ECommerce.Domain.Models;
+﻿using ECommerce.Application.Interfaces;
+using ECommerce.Domain.Models;
 using ECommerce.Infrastructure.Interfaces;
 
 namespace ECommerce.Application.Services
 {
-    public class WishlistService
+    public class WishlistService:IWishListService
     {
         private readonly IWishListRepository _wishlistRepository;
-        //ayhaga
+
         public WishlistService(IWishListRepository wishlistRepository)
         {
             _wishlistRepository = wishlistRepository;

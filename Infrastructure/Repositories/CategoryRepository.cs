@@ -1,4 +1,5 @@
-﻿using ECommerce.Domain.Models;
+﻿using ECommerce.API.DTOs;
+using ECommerce.Domain.Models;
 using ECommerce.Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,15 +34,25 @@ namespace ECommerce.Infrastructure.Repositories
             return await _context.Categories.Include(c=>c.SubCategories).FirstOrDefaultAsync(c => c.Id == id); 
         }
 
-        public async Task SetCategory(Category category)
+        public async Task SetCategory(CategoryDTO category)
         {
-            await _context.Categories.AddAsync(category);
+            var newCate = new Category
+            {
+                Name = category.Name,
+                ImgUrl= category.ImgUrl
+            };
+            await _context.Categories.AddAsync(newCate);
             await _context.SaveChangesAsync(); 
         }
 
-        public async Task UpdateCategory(Category category)
+        public async Task UpdateCategory(int id,CategoryDTO category)
         {
-            _context.Categories.Update(category); 
+            var editCate = await GetCategory(id);
+            if (editCate != null) 
+            {
+                editCate.Name = category.Name;
+                editCate.ImgUrl = category.ImgUrl;
+            }
             await _context.SaveChangesAsync();
         }
     }

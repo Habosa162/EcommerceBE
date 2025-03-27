@@ -20,9 +20,9 @@ namespace ECommerce
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("conn")));
             // Configure Identity
-            builder.Services.AddIdentity<AppUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+            //builder.Services.AddIdentity<AppUser, IdentityRole>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>()
+            //    .AddDefaultTokenProviders();
 
             // Add services to the container.
             builder.Services.AddAuthorization();
@@ -37,10 +37,12 @@ namespace ECommerce
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+            builder.Services.AddScoped<IWishListRepository, WishListRepository>();
 
 
             //Services  
             builder.Services.AddScoped<IAuthService, AuthService>();    
+            builder.Services.AddScoped<IWishListService, WishlistService>();    
 
 
 
