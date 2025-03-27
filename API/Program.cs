@@ -23,19 +23,14 @@ namespace ECommerce.API
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
             //.AddApiEndpoints();
-
-
-            //  Configure Database Context
+           
+            // Configure Database Context
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+                options.UseSqlServer(builder.Configuration.GetConnectionString("conn")));
 
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
-
-
-
 
 
             builder.Services.AddControllers();
