@@ -4,13 +4,16 @@ using ECommerce.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace ECommerce.API
+namespace ECommerce
 {
     public class Program
     {
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+
+           
 
             // Add services to the container.
 
