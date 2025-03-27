@@ -22,7 +22,7 @@ namespace ECommerce
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            //ayhaga
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
