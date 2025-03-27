@@ -62,7 +62,7 @@ namespace ECommerce.Application.Services
         {
             if (registerDTO == null)
             {
-                return null
+                return null; 
             }
             if(await IsAuthenticated(registerDTO.Email))
             {

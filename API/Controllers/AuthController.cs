@@ -1,11 +1,14 @@
 ﻿using ECommerce.API.DTOs;
 using ECommerce.Application.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ECommerce.API.Controllers
 {
-    public class AuthController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AuthController : ControllerBase
     {
         readonly IAuthService _authService;
         public AuthController(IAuthService authService)
@@ -13,33 +16,42 @@ namespace ECommerce.API.Controllers
             _authService = authService;
         }
 
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Register(int id, IFormCollection collection)
+        //Customer
+        //Merchant
+        //Admin 
+        public async Task<IActionResult> Register([FromBody] RegisterDTO RegisterUser)
         {
-            try
+            var token = await _authService.register(RegisterUser, "Customer");
+            if (token != null)
             {
-                return RedirectToAction(nameof(Index));
+                return Ok(new { Messsage = "success", token = token });
             }
-            catch
+            else if (token == "exsited")
             {
-                return View();
+                return BadRequest(new { Messsage = "user existed" });
+            }
+            else
+            {
+                return BadRequest(new { Messsage = "Invalid Data" });
             }
         }
 
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginDTO LoginUser)
+         [HttpPost]
+        public async Task<IActionResult> Login([FromBody] LoginDTO LoginUser)
         {
-            try
+            var token = await _authService.login(LoginUser.Email, LoginUser.Password);
+
+            if (token != null)
             {
-                return RedirectToAction(nameof(Index));
+                return Ok(new { Messsage = "success", token = token });
             }
-            catch
+            else
             {
-                return View();
+                return BadRequest(new { Messsage = "Invalid Email or Password" });
             }
+
         }
     }
 }
