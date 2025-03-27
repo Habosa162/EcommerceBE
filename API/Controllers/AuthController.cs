@@ -16,11 +16,7 @@ namespace ECommerce.API.Controllers
             _authService = authService;
         }
 
-
-        [HttpPost]
-        //Customer
-        //Merchant
-        //Admin 
+        [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDTO RegisterUser)
         {
             var token = await _authService.register(RegisterUser, "Customer");
@@ -38,10 +34,11 @@ namespace ECommerce.API.Controllers
             }
         }
 
-         [HttpPost]
+
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDTO LoginUser)
         {
-            var token = await _authService.login(LoginUser.Email, LoginUser.Password);
+            var token = await _authService.login(LoginUser);
 
             if (token != null)
             {

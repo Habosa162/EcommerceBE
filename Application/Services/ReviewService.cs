@@ -29,8 +29,6 @@ namespace ECommerce.Application.Services
             return await _reviewRepository.SetReview(review);
         }
 
-        
-
         public async Task<bool> DeleteReview(int id)
         {
             return await _reviewRepository.DeleteReview(id);
@@ -58,5 +56,7 @@ namespace ECommerce.Application.Services
             return await _reviewRepository.UpdateReview(updatedReview);
 
         }
+
+
     }
 }

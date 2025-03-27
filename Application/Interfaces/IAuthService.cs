@@ -7,7 +7,7 @@ namespace ECommerce.Application.Interfaces
     {
         public Task<bool> IsAuthenticated(string email); 
         public string? GenerateJwtToken(AppUser user); 
-        public Task<string> login(string email, string password);
+        public Task<string> login(LoginDTO loginDto);
         public Task<bool> logout();
         public Task<string> register(RegisterDTO registerDTO, string role);
     }

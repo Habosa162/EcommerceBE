@@ -12,15 +12,15 @@ namespace ECommerce.Application.Services
     public class AuthService : IAuthService
     {
         private readonly UserManager<AppUser> _userManager;
-        private readonly RoleManager<AppUser> _roleManager;
+        //private readonly RoleManager<AppUser> _roleManager;
         private readonly IConfiguration _configuration;
         public AuthService(IConfiguration configuration
-            , RoleManager<AppUser> roleManager
+            //, RoleManager<AppUser> roleManager
             , UserManager<AppUser> userManager
             )
         {
             _configuration = configuration;
-            _roleManager = roleManager;
+            //_roleManager = roleManager;
             _userManager = userManager;
         }
 
