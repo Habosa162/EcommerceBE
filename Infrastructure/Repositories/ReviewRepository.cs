@@ -17,13 +17,15 @@ namespace ECommerce.Infrastructure.Repositories
         {
             return await _context.Reviews.FirstOrDefaultAsync(r => r.Id == id); 
         }
-        public async Task DeleteReview(int id)
+        public async Task<bool> DeleteReview(int id)
         {
             var review = await GetReview(id);
             if (review != null) { 
                 _context.Reviews.Remove(review);    
-                await _context.SaveChangesAsync();  
+               return await _context.SaveChangesAsync() > 0;
+                
             }   
+            return false;
         }
 
         public async Task<IEnumerable<Review>> GetProductReviews(int Productid)
@@ -32,19 +34,25 @@ namespace ECommerce.Infrastructure.Repositories
                 .Where(r => r.ProductId == Productid)
                 .Include(r => r.Customer)
                 .Include(r => r.Product)
+                .OrderByDescending(r => r.CreatedAt)
                 .ToListAsync(); 
         }
 
-        public async Task SetReview(Review review)
+        public async Task<Review> SetReview(Review review)
         {
             await _context.Reviews.AddAsync(review);
-            await _context.SaveChangesAsync(); 
+            await _context.SaveChangesAsync();
+            return review;
         }
 
-        public async Task UpdateReview(Review review)
+        public async Task<bool> UpdateReview(Review review)
         {
+            var existingReview = await GetReview(review.Id);
+            if (existingReview == null) return false;
             _context.Reviews.Update(review);
-            await _context.SaveChangesAsync(); 
+            return await _context.SaveChangesAsync()>0;
+            
+
         }
     }
 }
