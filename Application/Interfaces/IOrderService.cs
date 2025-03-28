@@ -7,7 +7,7 @@ namespace ECommerce.Application.Interfaces
     {
         public Task<bool> CreateOrder(OrderDTO orderDto);
         Task<List<OrderDTO>> GetUserOrders(string customerId);
-        Task<Order?> GetOrderById(int orderId);
+        Task<OrderDTO> GetOrderById(int orderId);
 
 
     }

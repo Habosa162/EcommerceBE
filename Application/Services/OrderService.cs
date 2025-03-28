@@ -38,7 +38,7 @@ namespace ECommerce.Application.Services
             return await _OrderRepository.GetUserOrders(customerId);
         }
 
-        public async Task<Order?> GetOrderById(int orderId)
+        public async Task<OrderDTO?> GetOrderById(int orderId)
         {
             return await _OrderRepository.GetOrder(orderId);
         }

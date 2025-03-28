@@ -15,8 +15,9 @@ namespace ECommerce.Infrastructure.Repositories
         }
         public async Task deleteOrder(int id)
         {
-            var order = await GetOrder(id);
-            if (order != null) {
+            var order = await _context.Orders.FindAsync(id);
+            if (order != null)
+            {
 
                 _context.Orders.Remove(order);
                 await _context.SaveChangesAsync();
@@ -24,13 +25,28 @@ namespace ECommerce.Infrastructure.Repositories
 
         }
 
-        public async Task<Order?> GetOrder(int id)
+        public async Task<OrderDTO> GetOrder(int id)
         {
-            return await _context.Orders
+            var order = await _context.Orders
                 .Include(o=>o.Customer)
                 .Include(o=>o.OrderItems)
-                //.ThenInclude(o=>o.Product)
+                .ThenInclude(o=>o.Product)
                 .FirstOrDefaultAsync(o => o.Id == id);
+            return new OrderDTO
+            {
+                id = order.Id,
+                OrderDate = order.Date,
+                CustomerId = order.CustomerId,
+                TotalAmount = order.TotalAmount,
+                PaymentStatus = order.PaymentStatus,
+                OrderItems = order.OrderItems.Select(oi => new OrderItemDto
+                {
+                    Name = oi.Name,
+                    ProductId = oi.ProductId,
+                    UnitPrice = oi.UnitPrice,
+                    Qty = oi.Qty
+                }).ToList()
+            };
         }
 
         public async Task<IEnumerable<Order>> GetOrders()

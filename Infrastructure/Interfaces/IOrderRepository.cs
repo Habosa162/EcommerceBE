@@ -12,7 +12,7 @@ namespace ECommerce.Infrastructure.Interfaces
         public Task<IEnumerable<OrderItem>> GetOrderItems(int OrderID);
 
 
-        public Task<Order?> GetOrder(int id);
+        public Task<OrderDTO> GetOrder(int id);
         public Task<bool> setOrder(Order order);
         Task<List<OrderDTO>> GetUserOrders(string customerId);
 
