@@ -18,7 +18,7 @@ namespace ECommerce.Application.Services
         //ProfileImages
         //categories
 
-        public async Task<string> UploadFileAsync(IFormFile file, string bucketName, string folderName)
+        public async Task<string> UploadFileAsync(IFormFile file, string folderName)
         {
             var fileExtension = Path.GetExtension(file.FileName);
             var fileName = $"{Guid.NewGuid()}{fileExtension}";
@@ -31,7 +31,7 @@ namespace ECommerce.Application.Services
             {
                 InputStream = newMemoryStream,
                 Key = fileKey,
-                BucketName = bucketName,
+                BucketName = _configuration["AWS:BucketName"],
                 ContentType = file.ContentType,
                 //CannedACL = S3CannedACL.PublicRead 
             };
@@ -39,17 +39,17 @@ namespace ECommerce.Application.Services
             var fileTransferUtility = new TransferUtility(_s3Client);
             await fileTransferUtility.UploadAsync(uploadRequest);
 
-            string fileUrl = $"https://{bucketName}.s3.amazonaws.com/{fileKey}";
+            string fileUrl = $"https://{_configuration["AWS:BucketName"]}.s3.amazonaws.com/{fileKey}";
             return fileUrl;
         }
 
-        public async Task<bool> DeleteFileAsync(string bucketName, string fileKey)
+        public async Task<bool> DeleteFileAsync(string fileKey)
         {
             try
             {
                 var deleteObjectRequest = new Amazon.S3.Model.DeleteObjectRequest
                 {
-                    BucketName = bucketName,
+                    BucketName = _configuration["AWS:BucketName"],
                     Key = fileKey
                 };
 
