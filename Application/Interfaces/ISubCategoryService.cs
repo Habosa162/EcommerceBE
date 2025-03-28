@@ -1,14 +1,13 @@
 ﻿using ECommerce.Domain.Models;
 
-namespace ECommerce.Infrastructure.Interfaces
+namespace ECommerce.Application.Interfaces
 {
-    public interface ISubCategoryRepository
+    public interface ISubCategoryService
     {
         public Task<IEnumerable<SubCategory>> GetSubCategoriesByCategoryId(int id);
         public Task<IEnumerable<SubCategory>> GetSubCategories();
-        public Task<bool> SetSubCategory(SubCategory SubCategory);
-        public Task<bool> UpdateSubCategory(SubCategory SubCategory);
+        public Task<bool> SetSubCategory(SubCategory subCategory);
+        public Task<bool> UpdateSubCategory(SubCategory subCategory);
         public Task<bool> DeleteSubCategory(int id);
-
     }
 }
