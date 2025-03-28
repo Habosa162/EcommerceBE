@@ -18,7 +18,7 @@ namespace EComm.API.Controllers
             _wishlistService = wishlistService;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<WishList>>> GetWishlist()
         {
@@ -33,7 +33,7 @@ namespace EComm.API.Controllers
             return Ok(wishlist);
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult> AddToWishlist(int productId)
         {
@@ -50,7 +50,7 @@ namespace EComm.API.Controllers
             return Ok("Product added to wish list");
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpDelete("{productId}")]
         public async Task<ActionResult> RemoveFromWishlist(int productId)
         {

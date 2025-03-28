@@ -14,7 +14,7 @@ namespace ECommerce.Application.Services
             _reviewRepository = reviewRepository;
         }
 
-        public async Task<Review> CreateReview(string userId, ReviewDTO reviewDto)
+        public async Task<bool> CreateReview(string userId, ReviewDTO reviewDto)
         {
             
             var review = new Review

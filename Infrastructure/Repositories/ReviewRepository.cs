@@ -38,11 +38,10 @@ namespace ECommerce.Infrastructure.Repositories
                 .ToListAsync(); 
         }
 
-        public async Task<Review> SetReview(Review review)
+        public async Task<bool> SetReview(Review review)
         {
             await _context.Reviews.AddAsync(review);
-            await _context.SaveChangesAsync();
-            return review;
+            return await _context.SaveChangesAsync() > 0;
         }
 
         public async Task<bool> UpdateReview(Review review)
@@ -50,9 +49,7 @@ namespace ECommerce.Infrastructure.Repositories
             var existingReview = await GetReview(review.Id);
             if (existingReview == null) return false;
             _context.Reviews.Update(review);
-            return await _context.SaveChangesAsync()>0;
-            
-
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }

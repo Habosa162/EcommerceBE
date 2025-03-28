@@ -15,17 +15,21 @@ namespace ECommerce.Infrastructure.Repositories
         }
 
 
-        public async Task<SubCategory> GetSubCategory(int id)
+
+        public async Task<SubCategory> GetSubCategoryById(int id)
         {
             return await _context.SubCategories.Include(sc => sc.Category).FirstOrDefaultAsync(sc => sc.Id == id);
         }
 
+  
+
 
         public async Task<bool> DeleteSubCategory(int id)
         {
-            var DelSubCategory = await GetSubCategory(id);
+            var DelSubCategory = await GetSubCategoryById(id);
             if (DelSubCategory != null) { 
                  _context.SubCategories.Remove(DelSubCategory);
+
                 return await _context.SaveChangesAsync()>0;
 
             }
@@ -42,25 +46,28 @@ namespace ECommerce.Infrastructure.Repositories
             return await _context.SubCategories.Where(sc=>sc.CategoryId==id).Include(sc=>sc.Category).ToListAsync();
         }
 
+
+   
+
+
+
         public async Task<SubCategory> SetSubCategory(SubCategory SubCategory)
         {
-           
-           await _context.SubCategories.AddAsync(SubCategory);
-            await _context.SaveChangesAsync();
+            await _context.SubCategories.AddAsync(SubCategory);
+             await _context.SaveChangesAsync();
             return SubCategory;
-
 
         }
 
         public async Task<bool> UpdateSubCategory(SubCategory SubCategory)
         {
-            _context.Update(SubCategory);
+            _context.SubCategories.Update(SubCategory);
+
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public Task<SubCategory> GetSubCategoryById(int id)
-        {
-            throw new NotImplementedException();
-        }
+  
+
+   
     }
 }
