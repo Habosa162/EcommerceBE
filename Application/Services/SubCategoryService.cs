@@ -22,9 +22,9 @@ namespace ECommerce.Application.Services
             return await _subCategoryRepository.GetSubCategories();
         }  
         
-        public async Task<bool> SetSubCategory(SubCategory subCategory)
+        public async Task<SubCategory> SetSubCategory(SubCategory subCategory)
         {
-            return await _subCategoryRepository.SetSubCategory(subCategory);
+            return await _subCategoryRepository.CreateSubCategory(subCategory);
         }
         public async Task<bool> UpdateSubCategory(SubCategory subCategory)
         {

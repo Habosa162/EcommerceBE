@@ -6,7 +6,7 @@ namespace ECommerce.Application.Interfaces
     {
         public Task<IEnumerable<SubCategory>> GetSubCategoriesByCategoryId(int id);
         public Task<IEnumerable<SubCategory>> GetSubCategories();
-        public Task<bool> SetSubCategory(SubCategory subCategory);
+        public Task<SubCategory> SetSubCategory(SubCategory subCategory);
         public Task<bool> UpdateSubCategory(SubCategory subCategory);
         public Task<bool> DeleteSubCategory(int id);
     }

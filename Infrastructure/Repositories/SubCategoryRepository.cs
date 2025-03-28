@@ -51,10 +51,10 @@ namespace ECommerce.Infrastructure.Repositories
 
 
 
-        public async Task<SubCategory> SetSubCategory(SubCategory SubCategory)
+        public async Task<SubCategory> CreateSubCategory(SubCategory SubCategory)
         {
             await _context.SubCategories.AddAsync(SubCategory);
-             await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return SubCategory;
 
         }

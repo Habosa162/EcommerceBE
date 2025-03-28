@@ -75,7 +75,7 @@ namespace ECommerce.API.Controllers
         public async Task<ActionResult<SubCategory>> PostSubCategory(SubCategory subCategory)
         {
             var res = await _subCategoryService.SetSubCategory(subCategory);
-            if (res)
+            if (res != null)
             {
                 return Ok(new { success = true, messsage = "SubCategory Created Successfully" });
             }
