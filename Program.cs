@@ -1,3 +1,5 @@
+using Amazon.Runtime;
+using Amazon.S3;
 using ECommerce.Application.Interfaces;
 using ECommerce.Application.Services;
 using ECommerce.Domain.Models;
@@ -62,6 +64,21 @@ namespace ECommerce
             builder.Services.AddAuthorization();
 
 
+
+            builder.Services.AddSingleton<AWSCredentials>(sp =>
+           new BasicAWSCredentials(
+               builder.Configuration["AWS:AccessKey"],
+               builder.Configuration["AWS:SecretKey"]
+           )
+       );
+
+            builder.Services.AddSingleton<IAmazonS3>(sp =>
+                new AmazonS3Client(
+                    sp.GetRequiredService<AWSCredentials>(),
+                    Amazon.RegionEndpoint.GetBySystemName(builder.Configuration["AWS:Region"])
+                )
+            );
+
             //Repositories
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
@@ -77,6 +94,7 @@ namespace ECommerce
             builder.Services.AddScoped<IReviewService, ReviewService>();
             builder.Services.AddScoped<IWishListService, WishlistService>();
             builder.Services.AddScoped<ISubCategoryService, SubCategoryService>();
+            builder.Services.AddScoped<IAwsService, AwsService>(); 
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -98,18 +116,7 @@ namespace ECommerce
                         Url = new Uri("https://www.example.com")
                     }
                 });
-
-                // Optionally, include XML comments if you've set them up in the project
-                //var xmlFile = Path.Combine(AppContext.BaseDirectory, "ECommerce.xml");
-                //options.IncludeXmlComments(xmlFile);
             });
-
-            //handle circular references.
-            //builder.Services.AddControllers().AddJsonOptions(options =>
-            //{
-            //    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
-            //    options.JsonSerializerOptions.WriteIndented = true;
-            //});
 
             var app = builder.Build();
 

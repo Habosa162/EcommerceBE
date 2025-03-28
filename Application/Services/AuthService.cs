@@ -57,7 +57,6 @@ namespace ECommerce.Application.Services
         }
 
 
-
         public async Task<string> register(RegisterDTO registerDTO, string role)
         {
             if (registerDTO == null)
@@ -75,7 +74,7 @@ namespace ECommerce.Application.Services
                 LastName = registerDTO.LName,
                 Email = registerDTO.Email,
                 UserName = registerDTO.Email,
-                ProfileImage = registerDTO.ProfileIamge
+                ProfileImage = registerDTO.ProfileImage
             };
             await _userManager.CreateAsync(user, registerDTO.Password);
             if (!string.IsNullOrEmpty(role))

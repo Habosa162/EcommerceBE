@@ -1,4 +1,5 @@
-﻿using ECommerce.API.DTOs;
+﻿using Amazon.S3;
+using ECommerce.API.DTOs;
 using ECommerce.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,15 +12,24 @@ namespace ECommerce.API.Controllers
     public class AuthController : ControllerBase
     {
         readonly IAuthService _authService;
-        public AuthController(IAuthService authService)
+        readonly IAwsService _awsService;   
+        readonly IConfiguration _configuration;
+        public AuthController(IAuthService authService, IAwsService awsService , IConfiguration configuration)
         {
             _authService = authService;
+            _awsService = awsService;
+            _configuration = configuration;
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterDTO RegisterUser)
+        public async Task<IActionResult> Register([FromForm] RegisterDTO RegisterUser, [FromForm] IFormFile profileImage)
         {
-            var token = await _authService.register(RegisterUser, "Customer");
+            if (profileImage != null)
+            {
+                var imageUrl = await _awsService.UploadFileAsync(profileImage, _configuration["AWS:BucketName"], "ProfileImages");
+                RegisterUser.ProfileImage = imageUrl;
+            }
+            var token = await _authService.register(RegisterUser, RegisterUser.Role);
             if (token != null)
             {
                 return Ok(new { Messsage = "success", token = token });
