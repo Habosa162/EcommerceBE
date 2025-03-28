@@ -7,7 +7,7 @@ namespace ECommerce.Application.Interfaces
     {
         Task<IEnumerable<Review>> GetReviewsForProduct(int productId);
         Task<Review?> GetReviewById(int id);
-        Task<Review> CreateReview(string userId , ReviewDTO reviewDto);
+        Task<bool> CreateReview(string userId , ReviewDTO reviewDto);
         Task<bool> UpdateReview(int id, ReviewDTO reviewDto, string userId);
         Task<bool> DeleteReview(int id);
     }

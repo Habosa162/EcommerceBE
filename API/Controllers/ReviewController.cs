@@ -1,6 +1,7 @@
 ﻿using ECommerce.API.DTOs;
 using ECommerce.Application.Interfaces;
 using ECommerce.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -17,14 +18,14 @@ namespace ECommerce.API.Controllers
         {
             _reviewService = reviewService;
         }
-
+        [AllowAnonymous]
         [HttpGet("productReviews/{productId}")]
         public async Task<ActionResult<IEnumerable<Review>>> GetReviewsForProduct(int productId)
         {
             var reviews = await _reviewService.GetReviewsForProduct(productId);
             return Ok(reviews);
         }
-
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<Review>> GetReview(int id)
         {
@@ -35,6 +36,7 @@ namespace ECommerce.API.Controllers
             return Ok(review);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Review>> CreateReview(ReviewDTO reviewDto)
         {
@@ -43,10 +45,17 @@ namespace ECommerce.API.Controllers
             {
                 return Unauthorized();
             }
-            var review = await _reviewService.CreateReview(userId, reviewDto);
-            return Ok(review);
+            var res = await _reviewService.CreateReview(userId, reviewDto);
+            if (res)
+            {
+                return Ok(new {success = true , message="Review Created Successfully"});
+            }
+            else
+            {
+                return BadRequest(new { success = false, message = "Review Creation Failed" });
+            }
         }
-
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateReview(int id, [FromBody] ReviewDTO reviewDto)
         {
@@ -58,11 +67,11 @@ namespace ECommerce.API.Controllers
             
             var success = await _reviewService.UpdateReview(id, reviewDto, userId);
             if (!success)
-                return NotFound(); 
+                return BadRequest(new {success = false , message ="Review Update Failed"}); 
 
-            return Ok("Review updated");
+            return Ok(new {success=true, message = "Review Updated Successfully" });
         }
-
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReview(int id)
         {
@@ -80,9 +89,9 @@ namespace ECommerce.API.Controllers
 
             var success = await _reviewService.DeleteReview(id);
             if (!success)
-                return NotFound();
+                return BadRequest(new {success=false , message= "Review Delete Failed" });
 
-            return Ok("Review Deleted");
+            return Ok(new {success=true , message = "Review Deleted Successfully" });
         }
     }
 }
