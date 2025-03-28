@@ -31,14 +31,14 @@ namespace ECommerce.Application.Services
             {
                 var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
                 var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
+                   
                 var claims = new[]
                 {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Name, user.FirstName),
-            new Claim(ClaimTypes.Name, user.LastName),
-            //new Claim(ClaimTypes.Role, user.Role),
-        };
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new Claim(ClaimTypes.Name, user.FirstName),
+                    new Claim(ClaimTypes.Name, user.LastName),
+                    new Claim(ClaimTypes.Role, _userManager.GetRolesAsync(user).ToString() ),
+                 };
 
                 var token = new JwtSecurityToken(
                     issuer: _configuration["Jwt:Issuer"],
