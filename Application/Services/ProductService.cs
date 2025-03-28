@@ -16,12 +16,12 @@ namespace ECommerce.Application.Services
             _awsService = awsService;
             _configuration = configuration;
         }
-        public async Task<Product> CrteateProduct(ProductDTO productDto , IFormFile imgUrl)
+        public async Task<Product> CrteateProduct(ProductDTO productDto , IFormFile file)
         {
             var imageUrl= "";
-            if (imgUrl != null)
+            if (file != null)
             {
-            imageUrl = await _awsService.UploadFileAsync(imgUrl, "products");
+            imageUrl = await _awsService.UploadFileAsync(file, "products");
             }
             var product = new Product
             {
