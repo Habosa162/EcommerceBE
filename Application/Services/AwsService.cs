@@ -14,6 +14,10 @@ namespace ECommerce.Application.Services
             _s3Client = s3Client;
         }
 
+        //products
+        //ProfileImages
+        //categories
+
         public async Task<string> UploadFileAsync(IFormFile file, string bucketName, string folderName)
         {
             var fileExtension = Path.GetExtension(file.FileName);
