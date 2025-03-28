@@ -24,7 +24,7 @@ namespace ECommerce.API.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        [HttpGet("{customerId}")]
+        [HttpGet("GetUserOrders/{customerId}")]
         public async Task<IActionResult> GetUserOrders(string customerId)
         {
             var orders = await _orderService.GetUserOrders(customerId);

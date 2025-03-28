@@ -1,6 +1,8 @@
-﻿using ECommerce.Domain.Models;
+﻿using ECommerce.API.DTOs;
+using ECommerce.Domain.Models;
 using ECommerce.Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using static NuGet.Packaging.PackagingConstants;
 
 namespace ECommerce.Infrastructure.Repositories
 {
@@ -54,12 +56,28 @@ namespace ECommerce.Infrastructure.Repositories
             }
 
         }
-        public async Task<List<Order>> GetUserOrders(string customerId)
+        public async Task<List<OrderDTO>> GetUserOrders(string customerId)
         {
-            return await _context.Orders
+            var orders = await _context.Orders
                 .Where(o => o.CustomerId == customerId)
                 .Include(o => o.OrderItems)
+                .ThenInclude(oi=>oi.Product)
                 .ToListAsync();
+            return orders.Select(o => new OrderDTO
+            {
+                id = o.Id,
+                OrderDate = o.Date,
+                CustomerId = o.CustomerId,
+                TotalAmount = o.TotalAmount,
+                PaymentStatus = o.PaymentStatus,
+                OrderItems = o.OrderItems.Select(oi => new OrderItemDto
+                {
+                    Name = oi.Name,
+                    ProductId = oi.ProductId,
+                    UnitPrice = oi.UnitPrice,
+                    Qty = oi.Qty
+                }).ToList()
+            }).ToList();
         }
 
         public async Task updateOrder(Order order)

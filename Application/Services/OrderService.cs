@@ -33,7 +33,7 @@ namespace ECommerce.Application.Services
             };
             return await _OrderRepository.setOrder(order);
         }
-        public async Task<List<Order>> GetUserOrders(string customerId)
+        public async Task<List<OrderDTO>> GetUserOrders(string customerId)
         {
             return await _OrderRepository.GetUserOrders(customerId);
         }

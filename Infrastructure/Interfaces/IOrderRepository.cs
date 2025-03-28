@@ -1,4 +1,5 @@
-﻿using ECommerce.Domain.Models;
+﻿using ECommerce.API.DTOs;
+using ECommerce.Domain.Models;
 
 namespace ECommerce.Infrastructure.Interfaces
 {
@@ -13,7 +14,7 @@ namespace ECommerce.Infrastructure.Interfaces
 
         public Task<Order?> GetOrder(int id);
         public Task<bool> setOrder(Order order);
-        Task<List<Order>> GetUserOrders(string customerId);
+        Task<List<OrderDTO>> GetUserOrders(string customerId);
 
     }
 }
