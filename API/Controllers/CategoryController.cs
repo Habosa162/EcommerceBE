@@ -2,6 +2,7 @@
 using ECommerce.Domain.Models;
 using ECommerce.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -43,7 +44,7 @@ namespace ECommerce.API.Controllers
         public async Task<IActionResult> DeleteCategory(int id)
         {
             await _categoryRepository.DeleteCategory(id);
-            return NoContent();
+            return Ok(new {success = true , message = "Category Deleted Successfully"});
         }
 
         [Authorize]
@@ -51,7 +52,7 @@ namespace ECommerce.API.Controllers
         public async Task<ActionResult<Category>> CreateCategory(CategoryDTO category)
         {
              await _categoryRepository.SetCategory(category);
-            return Ok("category Created");
+            return Ok(new {success=true , message = "Category Created Successfully"});
         }
 
 
@@ -62,7 +63,7 @@ namespace ECommerce.API.Controllers
           
            await _categoryRepository.UpdateCategory(id, catgory);
             
-            return Ok($"category:{catgory.Name} is updated");
+            return Ok(new {succss = true , messeage = $"category:{catgory.Name} is updated successfully" });
         }
     }
 }
