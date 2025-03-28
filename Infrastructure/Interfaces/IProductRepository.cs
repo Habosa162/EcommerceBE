@@ -7,9 +7,9 @@ namespace ECommerce.Infrastructure.Interfaces
         public Task<IEnumerable<Product>> GetProducts();
         public Task<IEnumerable<Product>> GetProductsBySubCategoryId(int id);
         //public Task<IEnumerable<Product>> GetProductsByCategoryId(int id);
-        public Task<Product?> GetProduct(int id);
-        public Task SetProduct(Product product);
-        public Task UpdateProduct(Product product);
-        public Task DeleteProduct(int id);
+        public Task<Product?> GetProductById(int id);
+        public Task<Product> SetProduct(Product product);
+        public Task<bool> UpdateProduct(Product product);
+        public Task<bool> DeleteProduct(int id);
     }
 }
