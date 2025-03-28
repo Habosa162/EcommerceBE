@@ -18,7 +18,7 @@ namespace ECommerce.Application.Services
         //ProfileImages
         //categories
 
-        public async Task<string> UploadFileAsync(IFormFile file, string folderName, string v)
+        public async Task<string> UploadFileAsync(IFormFile file, string folderName)
         {
             var fileExtension = Path.GetExtension(file.FileName);
             var fileName = $"{Guid.NewGuid()}{fileExtension}";

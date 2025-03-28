@@ -2,7 +2,7 @@
 {
     public interface IAwsService
     {
-        Task<string> UploadFileAsync(IFormFile file, string folderName, string v);
+        Task<string> UploadFileAsync(IFormFile file, string folderName);
         Task<bool> DeleteFileAsync(string fileKey);
     }
 }

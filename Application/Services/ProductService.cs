@@ -21,7 +21,7 @@ namespace ECommerce.Application.Services
             var imageUrl= "";
             if (imgUrl != null)
             {
-            imageUrl = await _awsService.UploadFileAsync(imgUrl, _configuration["AWS:BucketName"], "products");
+            imageUrl = await _awsService.UploadFileAsync(imgUrl, "products");
             }
             var product = new Product
             {
