@@ -12,17 +12,19 @@ namespace ECommercev.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task DeleteProduct(int id)
+        public async Task<bool> DeleteProduct(int id)
         {
             var DelProduct = await _context.Products.FindAsync(id);
             if (DelProduct != null)
             {
                 _context.Products.Remove(DelProduct);
-                await _context.SaveChangesAsync();
+                return await _context.SaveChangesAsync()>0;
+                
             }
+            return false;
         }
 
-        public async Task<Product?> GetProduct(int id)
+        public async Task<Product?> GetProductById(int id)
         {
             return await _context.Products.Include(p=>p.SubCategory).FirstOrDefaultAsync(p=>p.Id==id);
         }
@@ -39,16 +41,17 @@ namespace ECommercev.Infrastructure.Repositories
             return await _context.Products.Where(p => p.SubCategoryId== id).ToListAsync();
         }
 
-        public async Task SetProduct(Product product)
+        public async Task<Product> SetProduct(Product product)
         {
             await _context.Products.AddAsync(product);
             await _context.SaveChangesAsync();
+            return product;
         }
 
-        public async Task UpdateProduct(Product product)
+        public async Task<bool> UpdateProduct(Product product)
         {
              _context.Products.Update(product);
-            await _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync()>0;
         }
     }
 }

@@ -95,6 +95,7 @@ namespace ECommerce
             builder.Services.AddScoped<IWishListService, WishlistService>();
             builder.Services.AddScoped<ISubCategoryService, SubCategoryService>();
             builder.Services.AddScoped<IAwsService, AwsService>(); 
+            builder.Services.AddScoped<IProductService, ProductService>(); 
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
