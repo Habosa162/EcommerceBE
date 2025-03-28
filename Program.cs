@@ -119,7 +119,8 @@ namespace ECommerce
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-            //ayhaga
+
+            app.UseCors("AllowAll");
             app.UseHttpsRedirection();
             app.UseAuthentication();    
             app.UseAuthorization();
