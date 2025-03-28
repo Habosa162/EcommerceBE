@@ -1,4 +1,6 @@
-﻿using ECommerce.Application.Interfaces;
+﻿using ECommerce.API.DTOs;
+using ECommerce.Application.Interfaces;
+using ECommerce.Application.Services;
 using ECommerce.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,18 +24,34 @@ namespace ECommerce.API.Controllers
             return new string[] { "value1", "value2" };
         }
 
+        [HttpGet("{customerId}")]
+        public async Task<IActionResult> GetUserOrders(string customerId)
+        {
+            var orders = await _orderService.GetUserOrders(customerId);
+            if (orders.Any())
+            {
+                return Ok(orders);
+            }
+            return NotFound(new { success = false, message = "No orders found" });
+        }
         // GET api/<OrderController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return "value";
+            var order = await _orderService.GetOrderById(id);
+            if (order != null)
+            {
+                return Ok(order);
+            }
+            return NotFound(new { success = false, message = "Order not found" });
         }
 
         // POST api/<OrderController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Order order)
+        public async Task<IActionResult> Post([FromBody] OrderDTO order)
         {
             var res = await _orderService.CreateOrder(order);
+            Console.WriteLine(order);
             if (res)
             {
                 return Ok(new { success = true, message = "Order created successfully" });
@@ -43,17 +61,18 @@ namespace ECommerce.API.Controllers
                 return BadRequest(new { success = false, message = "Order creation failed" });
             }
 
-            // PUT api/<OrderController>/5
-            [HttpPut("{id}")]
-             void Put(int id, [FromBody] string value)
-            {
-            }
+            
+        }
+        // PUT api/<OrderController>/5
+        [HttpPut("{id}")]
+        void Put(int id, [FromBody] string value)
+        {
+        }
 
-            // DELETE api/<OrderController>/5
-            [HttpDelete("{id}")]
-             void Delete(int id)
-            {
-            }
+        // DELETE api/<OrderController>/5
+        [HttpDelete("{id}")]
+        void Delete(int id)
+        {
         }
     }
 }

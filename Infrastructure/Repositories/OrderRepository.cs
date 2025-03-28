@@ -54,6 +54,13 @@ namespace ECommerce.Infrastructure.Repositories
             }
 
         }
+        public async Task<List<Order>> GetUserOrders(string customerId)
+        {
+            return await _context.Orders
+                .Where(o => o.CustomerId == customerId)
+                .Include(o => o.OrderItems)
+                .ToListAsync();
+        }
 
         public async Task updateOrder(Order order)
         {
