@@ -27,7 +27,7 @@ namespace ECommerce.API.Controllers
         public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
         {
            var categories = await _categoryService.GetAllCategories();
-            return Ok(categories);
+            return Ok(categories.ToList());
         }
 
         [AllowAnonymous]
@@ -40,7 +40,7 @@ namespace ECommerce.API.Controllers
 
             return Ok(category);
         }
-        [Authorize]
+        //[Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
@@ -48,7 +48,7 @@ namespace ECommerce.API.Controllers
             return Ok(new {success = true , message = "Category Deleted Successfully"});
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPost]
         public async Task<ActionResult<Category>> CreateCategory(CategoryDTO category)
         {
@@ -57,7 +57,7 @@ namespace ECommerce.API.Controllers
         }
 
 
-        [Authorize]
+        //[Authorize]
         [HttpPut("{id}")]
         public async Task<ActionResult<Category>> UpdateCategory(int id,CategoryDTO catgory)
         {

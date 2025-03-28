@@ -76,6 +76,7 @@ namespace ECommerce
             //builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IReviewService, ReviewService>();
             builder.Services.AddScoped<IWishListService, WishlistService>();
+            builder.Services.AddScoped<ISubCategoryService, SubCategoryService>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -102,6 +103,13 @@ namespace ECommerce
                 //var xmlFile = Path.Combine(AppContext.BaseDirectory, "ECommerce.xml");
                 //options.IncludeXmlComments(xmlFile);
             });
+
+            //handle circular references.
+            //builder.Services.AddControllers().AddJsonOptions(options =>
+            //{
+            //    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+            //    options.JsonSerializerOptions.WriteIndented = true;
+            //});
 
             var app = builder.Build();
 

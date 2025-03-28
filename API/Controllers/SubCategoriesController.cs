@@ -9,6 +9,7 @@ using ECommerce.Domain.Models;
 using ECommerce.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using ECommerce.Application.Services;
+using ECommerce.API.DTOs;
 
 namespace ECommerce.API.Controllers
 {
@@ -47,32 +48,26 @@ namespace ECommerce.API.Controllers
             return Ok(subCategory);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSubCategory(int id, SubCategory subCategory)
+        public async Task<IActionResult> PutSubCategory(int id, SubCategoryDTO subCategoryDto)
         {
-            if (id != subCategory.Id)
-            {
-                return BadRequest();
-            }
 
-            //_context.Entry(subCategory).State = EntityState.Modified;
-              var res = await _subCategoryService.UpdateSubCategory(subCategory);
-            if (res)
-            {
-                return Ok(new {success= true , messsage = "SubCategory Updated Successfully"});
-            }
+            var success = await _subCategoryService.UpdateSubCategory(id, subCategoryDto);
+
+            if (!success)
+                return BadRequest(new { success = false, message = "SuCatgeory Updated Failed" });
             else
-            {
-                return BadRequest(new {success=false , message= "SuCatgeory Updated Failed"});    
-            }
+                return Ok(new { success = true, messsage = "SubCategory Updated Successfully" });
+
+      
 
         }
 
 
-        [Authorize]
+        //[Authorize]
         [HttpPost]
-        public async Task<ActionResult<SubCategory>> PostSubCategory(SubCategory subCategory)
+        public async Task<ActionResult<SubCategory>> PostSubCategory(SubCategoryDTO subCategory)
         {
             var res = await _subCategoryService.SetSubCategory(subCategory);
             if (res != null)
@@ -83,10 +78,9 @@ namespace ECommerce.API.Controllers
             {
                 return BadRequest(new { success = false, message = "SuCatgeory Creation Failed" });
             }   
-            //return CreatedAtAction("GetSubCategory", new { id = subCategory.Id }, subCategory);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSubCategory(int id)
         {

@@ -1,4 +1,5 @@
-﻿using ECommerce.Application.Interfaces;
+﻿using ECommerce.API.DTOs;
+using ECommerce.Application.Interfaces;
 using ECommerce.Domain.Models;
 using ECommerce.Infrastructure.Interfaces;
 
@@ -22,12 +23,26 @@ namespace ECommerce.Application.Services
             return await _subCategoryRepository.GetSubCategories();
         }  
         
-        public async Task<SubCategory> SetSubCategory(SubCategory subCategory)
+        public async Task<SubCategory> SetSubCategory(SubCategoryDTO subCategoryDto)
         {
+            var subCategory = new SubCategory
+            {
+                Name = subCategoryDto.Name,
+                CategoryId = subCategoryDto.CategoryId,
+                ImgUrl = subCategoryDto.ImgUrl
+            };  
             return await _subCategoryRepository.CreateSubCategory(subCategory);
         }
-        public async Task<bool> UpdateSubCategory(SubCategory subCategory)
+        public async Task<bool> UpdateSubCategory(int id, SubCategoryDTO subCategoryDto)
         {
+            var subCategory = await _subCategoryRepository.GetSubCategoryById(id);
+            if (subCategory == null)
+            {
+                return false;
+            }
+            subCategory.CategoryId = subCategoryDto.CategoryId;
+            subCategory.Name = subCategoryDto.Name;
+            subCategory.ImgUrl = subCategoryDto.ImgUrl;
             return await _subCategoryRepository.UpdateSubCategory(subCategory);
         }
 

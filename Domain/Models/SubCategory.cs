@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace ECommerce.Domain.Models
 {
@@ -18,6 +19,7 @@ namespace ECommerce.Domain.Models
         [Required]
         public string ImgUrl { get; set; } = string.Empty;
 
+        [JsonIgnore]
         public Category? Category { get; set; }
         public ICollection<Product>? Products { get; set; }
     }
