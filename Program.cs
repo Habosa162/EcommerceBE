@@ -73,7 +73,7 @@ namespace ECommerce
             //Services  
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
-            builder.Services.AddScoped<IOrderService, OrderService>();
+            //builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IReviewService, ReviewService>();
             builder.Services.AddScoped<IWishListService, WishlistService>();
 
