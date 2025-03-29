@@ -10,9 +10,11 @@ namespace ECommerce.Application.Services
     public class OrderService : IOrderService
     {
         private readonly IOrderRepository _OrderRepository;
-        public OrderService(IOrderRepository orderRepository)
+        private readonly IShippingRepository _shippingRepository;
+        public OrderService(IOrderRepository orderRepository, IShippingRepository shippingRepository)
         {
             _OrderRepository = orderRepository;
+            _shippingRepository = shippingRepository;
         }
 
         public async Task<int> CreateOrder(OrderDTO orderDto)
@@ -43,5 +45,41 @@ namespace ECommerce.Application.Services
         {
             return await _OrderRepository.GetOrder(orderId);
         }
+        public async Task<bool> UpdatePaymentStatus(int orderId, PaymentStatus newStatus)
+        {
+            var order = await _OrderRepository.GetOrderByID(orderId);
+            if (order == null)
+                return false;
+
+            order.PaymentStatus = newStatus;
+            await _OrderRepository.updateOrder(order);
+
+            return true;
+        }
+        public async Task<bool> CancelOrder(int orderId)
+        {
+            var order = await _OrderRepository.GetOrder(orderId);
+            if (order.PaymentStatus == PaymentStatus.Paid)
+            {
+                await UpdatePaymentStatus(orderId, PaymentStatus.Refunded);
+            }
+            else if(order.PaymentStatus == PaymentStatus.Pending)
+            {
+                var shippingData = await _shippingRepository.GetAllShippings();
+                foreach (var item in shippingData)
+                {
+                    if (item.OrderId == orderId)
+                        await _shippingRepository.DeleteShipping(item.Id);
+                }
+                await _OrderRepository.deleteOrder(orderId);
+            }
+            else
+            {
+                return false;
+            }
+            return true;
+        }
+        
+
     }
 }

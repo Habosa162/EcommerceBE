@@ -18,7 +18,6 @@ namespace ECommerce.Infrastructure.Repositories
             var order = await _context.Orders.FindAsync(id);
             if (order != null)
             {
-
                 _context.Orders.Remove(order);
                 await _context.SaveChangesAsync();
             }
@@ -48,7 +47,15 @@ namespace ECommerce.Infrastructure.Repositories
                 }).ToList()
             };
         }
-
+        public async Task<Order> GetOrderByID(int id)
+        {
+            var order = await _context.Orders
+                .Include(o => o.Customer)
+                .Include(o => o.OrderItems)
+                .ThenInclude(o => o.Product)
+                .FirstOrDefaultAsync(o => o.Id == id);
+            return order;
+        }
         public async Task<IEnumerable<Order>> GetOrders()
         {
             return await _context.Orders.ToListAsync();

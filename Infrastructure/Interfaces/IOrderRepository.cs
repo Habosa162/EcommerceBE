@@ -10,6 +10,7 @@ namespace ECommerce.Infrastructure.Interfaces
         public Task updateOrder(Order order);
         public Task<OrderItem?> GetOrderItem(int orderItemId);
         public Task<IEnumerable<OrderItem>> GetOrderItems(int OrderID);
+        public Task<Order> GetOrderByID(int id);
 
 
         public Task<OrderDTO> GetOrder(int id);

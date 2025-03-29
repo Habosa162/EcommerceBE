@@ -1,6 +1,7 @@
 ﻿using ECommerce.API.DTOs;
 using ECommerce.Application.Interfaces;
 using ECommerce.Application.Services;
+using ECommerce.Domain.Enums;
 using ECommerce.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -73,6 +74,26 @@ namespace ECommerce.API.Controllers
         [HttpDelete("{id}")]
         void Delete(int id)
         {
+            
+        }
+        [HttpPut("{orderId}/update-payment-status")]
+        public async Task< IActionResult> UpdatePaymentStatus(int orderId, [FromBody] PaymentStatus status)
+        {
+            var success = await _orderService.UpdatePaymentStatus(orderId, status);
+            if (! success)
+                return NotFound("Order not found");
+
+            return Ok(new { Message = "Payment status updated successfully" });
+        }
+
+        [HttpPut("{orderId}/cancel")]
+        public async Task< IActionResult> CancelOrder(int orderId)
+        {
+            var success = await _orderService.CancelOrder(orderId);
+            if (!success)
+                return NotFound(new { Message = "Order not found or cannot be canceled" });
+
+            return Ok(new { Message = "Order canceled successfully" });
         }
     }
 }
