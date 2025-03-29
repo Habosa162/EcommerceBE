@@ -22,6 +22,7 @@ namespace ECommerce.API.DTOs
 
 
         public int OrderId { get; set; }
+        public string CustomerId { get; set; }
 
 
         public string Country { get; set; } = string.Empty;

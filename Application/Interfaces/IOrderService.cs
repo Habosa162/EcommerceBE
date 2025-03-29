@@ -5,7 +5,7 @@ namespace ECommerce.Application.Interfaces
 {
     public interface IOrderService
     {
-        public Task<bool> CreateOrder(OrderDTO orderDto);
+        public Task<int> CreateOrder(OrderDTO orderDto);
         Task<List<OrderDTO>> GetUserOrders(string customerId);
         Task<OrderDTO> GetOrderById(int orderId);
 

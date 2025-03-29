@@ -15,7 +15,7 @@ namespace ECommerce.Application.Services
             _OrderRepository = orderRepository;
         }
 
-        public async Task<bool> CreateOrder(OrderDTO orderDto)
+        public async Task<int> CreateOrder(OrderDTO orderDto)
         {
             var order = new Order
             {
@@ -31,7 +31,8 @@ namespace ECommerce.Application.Services
                     Qty = item.Qty
                 }).ToList()
             };
-            return await _OrderRepository.setOrder(order);
+             await _OrderRepository.setOrder(order);
+            return order.Id;
         }
         public async Task<List<OrderDTO>> GetUserOrders(string customerId)
         {

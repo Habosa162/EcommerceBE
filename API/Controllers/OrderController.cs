@@ -50,11 +50,11 @@ namespace ECommerce.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] OrderDTO order)
         {
-            var res = await _orderService.CreateOrder(order);
+            var orderID = await _orderService.CreateOrder(order);
             Console.WriteLine(order);
-            if (res)
+            if (orderID > 0)
             {
-                return Ok(new { success = true, message = "Order created successfully" });
+                return Ok(new { success = true, message = "Order created successfully",orderID }); 
             }
             else
             {

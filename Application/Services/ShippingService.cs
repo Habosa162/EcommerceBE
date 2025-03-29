@@ -1,5 +1,6 @@
 ﻿using ECommerce.API.DTOs;
 using ECommerce.Application.Interfaces;
+using ECommerce.Domain.Enums;
 using ECommerce.Domain.Models;
 using ECommerce.Infrastructure.Interfaces;
 
@@ -16,6 +17,7 @@ namespace ECommerce.Application.Services
         {
             var newShipping = new Shipping
             {
+                CustomerId = shippingDto.CustomerId,
                 OrderId = shippingDto.OrderId,
                 ShippingStatus = shippingDto.ShippingStatus,
                 Street = shippingDto.Street,
@@ -31,6 +33,7 @@ namespace ECommerce.Application.Services
             {
                 Id = createdShipping.Id,
                 OrderId = createdShipping.OrderId,
+                CustomerId = createdShipping.CustomerId,
                 ShippingStatus = createdShipping.ShippingStatus,
                 Street = createdShipping.Street,
                 City = createdShipping.City,
@@ -108,6 +111,11 @@ namespace ECommerce.Application.Services
             shipping.Country = shippingDto.Country;
             shipping.DeliveryDate = shippingDto.DeliveryDate;
             return await _shippingRepository.UpdateShipping(shipping);
+        }
+
+        public Task<bool> UpdateShippingStatus(int id, ShippingStatus status)
+        {
+            throw new NotImplementedException();
         }
     }
 }
