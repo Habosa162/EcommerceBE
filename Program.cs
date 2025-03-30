@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Scalar.AspNetCore; 
 
 namespace ECommerce
 {
@@ -108,21 +109,21 @@ namespace ECommerce
             
             builder.Services.AddEndpointsApiExplorer();
             //builder.Services.AddSwaggerGen();
-            builder.Services.AddSwaggerGen(options =>
-            {
-                options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-                {
-                    Title = "ECommerce API",
-                    Version = "v1",
-                    Description = "API for managing e-commerce platform.",
-                    Contact = new Microsoft.OpenApi.Models.OpenApiContact
-                    {
-                        Name = "Your Name",
-                        Email = "your-email@example.com",
-                        Url = new Uri("https://www.example.com")
-                    }
-                });
-            });
+            //builder.Services.AddSwaggerGen(options =>
+            //{
+            //    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+            //    {
+            //        Title = "ECommerce API",
+            //        Version = "v1",
+            //        Description = "API for managing e-commerce platform.",
+            //        Contact = new Microsoft.OpenApi.Models.OpenApiContact
+            //        {
+            //            Name = "Your Name",
+            //            Email = "your-email@example.com",
+            //            Url = new Uri("https://www.example.com")
+            //        }
+            //    });
+            //});
 
             // Register the background service
             builder.Services.AddHostedService<ShippingStatusUpdater>();
@@ -134,6 +135,7 @@ namespace ECommerce
             {
                 //app.UseSwagger();
                 //app.UseSwaggerUI();
+                app.MapScalarApiReference();
             }
 
             app.UseCors("AllowAll");
