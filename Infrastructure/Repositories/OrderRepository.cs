@@ -44,7 +44,8 @@ namespace ECommerce.Infrastructure.Repositories
                     Name = oi.Name,
                     ProductId = oi.ProductId,
                     UnitPrice = oi.UnitPrice,
-                    Qty = oi.Qty
+                    Qty = oi.Qty,
+                    productImg = oi.Product.ImgUrl
                 }).ToList()
             };
         }
