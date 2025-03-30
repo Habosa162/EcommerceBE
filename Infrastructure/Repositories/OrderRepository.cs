@@ -57,9 +57,27 @@ namespace ECommerce.Infrastructure.Repositories
                 .FirstOrDefaultAsync(o => o.Id == id);
             return order;
         }
-        public async Task<IEnumerable<Order>> GetOrders()
+        public async Task<IEnumerable<OrderDTO>> GetOrders()
         {
-            return await _context.Orders.ToListAsync();
+            var orders = await _context.Orders
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
+                .ToListAsync();
+            return orders.Select(o => new OrderDTO
+            {
+                id = o.Id,
+                OrderDate = o.Date,
+                CustomerId = o.CustomerId,
+                TotalAmount = o.TotalAmount,
+                PaymentStatus = o.PaymentStatus,
+                OrderItems = o.OrderItems.Select(oi => new OrderItemDto
+                {
+                    Name = oi.Name,
+                    ProductId = oi.ProductId,
+                    UnitPrice = oi.UnitPrice,
+                    Qty = oi.Qty
+                }).ToList()
+            }).ToList();
         }
 
         public async Task<bool> setOrder(Order order)

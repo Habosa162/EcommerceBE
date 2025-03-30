@@ -7,10 +7,11 @@ namespace ECommerce.Application.Interfaces
     public interface IOrderService
     {
         public Task<int> CreateOrder(OrderDTO orderDto);
-        Task<List<OrderDTO>> GetUserOrders(string customerId);
-        Task<OrderDTO> GetOrderById(int orderId);
-        Task<bool> UpdatePaymentStatus(int orderId, PaymentStatus newStatus);
-        Task<bool> CancelOrder(int orderId);
+        public Task<IEnumerable<OrderDTO>> GetOrders();
+        public Task<List<OrderDTO>> GetUserOrders(string customerId);
+        public Task<OrderDTO> GetOrderById(int orderId);
+        public Task<bool> UpdatePaymentStatus(int orderId, PaymentStatus newStatus);
+        public Task<bool> CancelOrder(int orderId);
 
 
 
