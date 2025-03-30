@@ -36,6 +36,10 @@ namespace ECommerce.Application.Services
              await _OrderRepository.setOrder(order);
             return order.Id;
         }
+        public async Task<IEnumerable<OrderDTO>> GetOrders()
+        {
+            return await _OrderRepository.GetOrders();
+        }
         public async Task<List<OrderDTO>> GetUserOrders(string customerId)
         {
             return await _OrderRepository.GetUserOrders(customerId);
@@ -79,7 +83,7 @@ namespace ECommerce.Application.Services
             }
             return true;
         }
-        
 
+        
     }
 }

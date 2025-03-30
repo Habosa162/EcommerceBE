@@ -19,10 +19,15 @@ namespace ECommerce.API.Controllers
             _orderService = orderService;
         }
         // GET: api/<OrderController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllOrders()
         {
-            return new string[] { "value1", "value2" };
+            var orders= await _orderService.GetOrders();
+            if (orders.Any())
+            {
+                return Ok(orders);
+            }
+            return NotFound(new { success = false, message = "No orders found" });
         }
 
         [HttpGet("GetUserOrders/{customerId}")]
@@ -35,6 +40,12 @@ namespace ECommerce.API.Controllers
             }
             return NotFound(new { success = false, message = "No orders found" });
         }
+
+
+
+
+
+
         // GET api/<OrderController>/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)

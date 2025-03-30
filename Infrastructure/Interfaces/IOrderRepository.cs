@@ -5,7 +5,7 @@ namespace ECommerce.Infrastructure.Interfaces
 {
     public interface IOrderRepository
     {
-        public Task<IEnumerable<Order>> GetOrders(); 
+        public Task<IEnumerable<OrderDTO>> GetOrders(); 
         public Task deleteOrder(int id);    
         public Task updateOrder(Order order);
         public Task<OrderItem?> GetOrderItem(int orderItemId);
