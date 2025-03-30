@@ -36,7 +36,7 @@ namespace ECommerce.API.Controllers
             }
             return NotFound(new { success = false, message = "Shipping not found" });
         }
-        [HttpGet("{orderId}")]
+        [HttpGet("GetShippingByOrderId/{orderId}")]
         public async Task<IActionResult> GetShippingByOrderId(int orderId)
         {
             var shipping = await _shippingService.GetShippingByOrderId(orderId);

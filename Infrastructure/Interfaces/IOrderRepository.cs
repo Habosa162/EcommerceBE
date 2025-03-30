@@ -1,4 +1,5 @@
 ﻿using ECommerce.API.DTOs;
+using ECommerce.Domain.Enums;
 using ECommerce.Domain.Models;
 
 namespace ECommerce.Infrastructure.Interfaces
@@ -15,7 +16,7 @@ namespace ECommerce.Infrastructure.Interfaces
 
         public Task<OrderDTO> GetOrder(int id);
         public Task<bool> setOrder(Order order);
-        Task<List<OrderDTO>> GetUserOrders(string customerId);
-
+        public Task<List<OrderDTO>> GetUserOrders(string customerId);
+        public ShippingStatus GetShippingStatusByOrderId(int OrderID);
     }
 }

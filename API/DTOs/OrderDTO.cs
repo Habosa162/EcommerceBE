@@ -10,6 +10,8 @@ namespace ECommerce.API.DTOs
         public string CustomerId { get; set; } = string.Empty;
         public PaymentStatus PaymentStatus { get; set; }
         public List<OrderItemDto> OrderItems { get; set; } = new();
+        public ShippingStatus? ShippingStatus { get; set; }
+        public DateTime? DelivaryDate { get; set; }
 
     }
 }

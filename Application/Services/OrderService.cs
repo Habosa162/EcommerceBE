@@ -58,6 +58,13 @@ namespace ECommerce.Application.Services
         }
         public async Task<bool> CancelOrder(int orderId)
         {
+            var shippingData = await _shippingRepository.GetAllShippings();
+
+            foreach (var item in shippingData)
+            {
+                if (item.OrderId == orderId)
+                    await _shippingRepository.DeleteShipping(item.Id);
+            }
             var order = await _OrderRepository.GetOrder(orderId);
             if (order.PaymentStatus == PaymentStatus.Paid)
             {
@@ -65,13 +72,8 @@ namespace ECommerce.Application.Services
             }
             else if(order.PaymentStatus == PaymentStatus.Pending)
             {
-                var shippingData = await _shippingRepository.GetAllShippings();
-                foreach (var item in shippingData)
-                {
-                    if (item.OrderId == orderId)
-                        await _shippingRepository.DeleteShipping(item.Id);
-                }
-                await _OrderRepository.deleteOrder(orderId);
+
+                await UpdatePaymentStatus(orderId, PaymentStatus.Cancelled);
             }
             else
             {
@@ -79,7 +81,9 @@ namespace ECommerce.Application.Services
             }
             return true;
         }
-        
+
+
+
 
     }
 }

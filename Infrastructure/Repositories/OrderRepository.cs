@@ -1,4 +1,5 @@
 ﻿using ECommerce.API.DTOs;
+using ECommerce.Domain.Enums;
 using ECommerce.Domain.Models;
 using ECommerce.Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -79,6 +80,10 @@ namespace ECommerce.Infrastructure.Repositories
             }
 
         }
+        public ShippingStatus GetShippingStatusByOrderId(int OrderID)
+        {
+            return _context.Shippings.FirstOrDefault(s => s.OrderId == OrderID).ShippingStatus;
+        }
         public async Task<List<OrderDTO>> GetUserOrders(string customerId)
         {
             var orders = await _context.Orders
@@ -86,7 +91,9 @@ namespace ECommerce.Infrastructure.Repositories
                 .Include(o => o.OrderItems)
                 .ThenInclude(oi=>oi.Product)
                 .ToListAsync();
-            return orders.Select(o => new OrderDTO
+            if (orders == null)
+                return new List<OrderDTO>();
+            return orders?.Select(o => new OrderDTO
             {
                 id = o.Id,
                 OrderDate = o.Date,
@@ -98,8 +105,22 @@ namespace ECommerce.Infrastructure.Repositories
                     Name = oi.Name,
                     ProductId = oi.ProductId,
                     UnitPrice = oi.UnitPrice,
-                    Qty = oi.Qty
-                }).ToList()
+                    Qty = oi.Qty,
+                    productImg = oi.Product.ImgUrl
+                }
+                ).ToList(),
+
+                ShippingStatus = (o.PaymentStatus == PaymentStatus.Pending || o.PaymentStatus == PaymentStatus.Paid)
+                ? _context.Shippings.FirstOrDefault(s => s.OrderId == o.Id)?.ShippingStatus
+                : null,
+
+
+
+                DelivaryDate = (o.PaymentStatus == PaymentStatus.Pending || o.PaymentStatus == PaymentStatus.Paid)
+        ? _context.Shippings.FirstOrDefault(s => s.OrderId == o.Id)?.DeliveryDate
+        : null
+
+
             }).ToList();
         }
 
@@ -125,6 +146,7 @@ namespace ECommerce.Infrastructure.Repositories
                 .Include(oi => oi.Product)
                 .ToListAsync();
         }
+        
 
     }
 }
