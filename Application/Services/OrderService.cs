@@ -16,6 +16,10 @@ namespace ECommerce.Application.Services
             _OrderRepository = orderRepository;
             _shippingRepository = shippingRepository;
         }
+        public async Task<IEnumerable<OrderDTO>> GetOrders()
+        {
+            return await _OrderRepository.GetOrders();
+        }
 
         public async Task<int> CreateOrder(OrderDTO orderDto)
         {
