@@ -18,10 +18,6 @@ namespace ECommerce.API.DTOs
         [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
 
-        [Required(ErrorMessage = "Role is required")]
-        public string Role { get; set; }
-
-
         public string? ProfileImage { get; set; }
     }
 }

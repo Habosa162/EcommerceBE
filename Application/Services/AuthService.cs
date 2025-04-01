@@ -1,4 +1,5 @@
-﻿using ECommerce.API.DTOs;
+﻿using Amazon;
+using ECommerce.API.DTOs;
 using ECommerce.Application.Interfaces;
 using ECommerce.Domain.Models;
 using Microsoft.AspNetCore.Identity;
@@ -25,24 +26,31 @@ namespace ECommerce.Application.Services
         }
 
         //test
-        public string? GenerateJwtToken(AppUser user)
+        public async Task<string> GenerateJwtTokenAsync(AppUser user)
         {
             if (user != null)
             {
                 var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
                 var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-                   
-                var claims = new[]
+               
+                var claims = new List<Claim>  
                 {
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                    new Claim(ClaimTypes.Name, user.FirstName),
-                    new Claim(ClaimTypes.Name, user.LastName),
-                    new Claim(ClaimTypes.Role, _userManager.GetRolesAsync(user).ToString() ),
-                 };
+                    new Claim(ClaimTypes.Name,$"{user.FirstName} {user.LastName}"),
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim("profileImg", user.ProfileImage),
+                };
+
+                var roles = await _userManager.GetRolesAsync(user);
+                foreach (var role in roles)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, role));
+                }
 
                 var token = new JwtSecurityToken(
-                    issuer: _configuration["Jwt:Issuer"],
-                    audience: _configuration["Jwt:Audience"],
+                    // You can uncomment these if you want to set the Issuer and Audience
+                    //issuer: _configuration["Jwt:Issuer"],
+                    //audience: _configuration["Jwt:Audience"],
                     claims: claims,
                     expires: DateTime.UtcNow.AddDays(3),
                     signingCredentials: credentials
@@ -55,6 +63,7 @@ namespace ECommerce.Application.Services
                 return null;
             }
         }
+
 
 
         public async Task<string> register(RegisterDTO registerDTO, string role)
@@ -81,7 +90,7 @@ namespace ECommerce.Application.Services
             {
                 await _userManager.AddToRoleAsync(user, role);
             }
-            return GenerateJwtToken(user);  
+            return await GenerateJwtTokenAsync(user);  
         }
 
         public async Task<string> login(LoginDTO LoginUser)
@@ -92,7 +101,7 @@ namespace ECommerce.Application.Services
                 var user = await _userManager.FindByEmailAsync(LoginUser.Email);
                 if (await _userManager.CheckPasswordAsync(user, LoginUser.Password))
                 {
-                    return GenerateJwtToken(user);
+                    return await GenerateJwtTokenAsync(user);
                 }
                 else
                 {

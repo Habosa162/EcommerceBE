@@ -29,7 +29,8 @@ namespace ECommerce.API.Controllers
                 var imageUrl = await _awsService.UploadFileAsync(profileImage, "ProfileImages");
                 RegisterUser.ProfileImage = imageUrl;
             }
-            var token = await _authService.register(RegisterUser, RegisterUser.Role);
+
+            var token = await _authService.register(RegisterUser, "Customer");
             if (token != null)
             {
                 return Ok(new { Messsage = "success", token = token });

@@ -23,7 +23,7 @@ namespace ECommerce.API.Controllers
 
 
         [AllowAnonymous]
-        [HttpGet]
+        [HttpGet("categories")]
         public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
         {
            var categories = await _categoryService.GetAllCategories();
