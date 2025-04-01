@@ -1,22 +1,32 @@
 ﻿using ECommerce.Application.Interfaces;
 using ECommerce.Domain.Models;
 using ECommerce.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace ECommerce.Application.Services
 {
     public class WishlistService:IWishListService
     {
         private readonly IWishListRepository _wishlistRepository;
-
         public WishlistService(IWishListRepository wishlistRepository)
         {
             _wishlistRepository = wishlistRepository;
         }
 
+
         public async Task<IEnumerable<WishList>> GetWishlistByUser(string userId)
         {
+   
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new UnauthorizedAccessException("User is not authenticated or user ID is missing.");
+            }
+
             return await _wishlistRepository.GetWishlistByUser(userId);
         }
+
 
 
         public async Task<bool> AddToWishlist(string userId, int productId)

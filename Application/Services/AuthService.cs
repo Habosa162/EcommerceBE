@@ -48,9 +48,8 @@ namespace ECommerce.Application.Services
                 }
 
                 var token = new JwtSecurityToken(
-                    // You can uncomment these if you want to set the Issuer and Audience
-                    //issuer: _configuration["Jwt:Issuer"],
-                    //audience: _configuration["Jwt:Audience"],
+                    issuer: _configuration["Jwt:Issuer"],
+                    audience: _configuration["Jwt:Audience"],
                     claims: claims,
                     expires: DateTime.UtcNow.AddDays(3),
                     signingCredentials: credentials

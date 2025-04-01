@@ -1,4 +1,5 @@
 ﻿
+using ECommerce.Application.Interfaces;
 using ECommerce.Application.Services;
 using ECommerce.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -12,8 +13,8 @@ namespace EComm.API.Controllers
     [ApiController]
     public class WishlistController : ControllerBase
     {
-        private readonly WishlistService _wishlistService;
-        public WishlistController(WishlistService wishlistService)
+        private readonly IWishListService _wishlistService;
+        public WishlistController(IWishListService wishlistService)
         {
             _wishlistService = wishlistService;
         }
@@ -28,7 +29,6 @@ namespace EComm.API.Controllers
             {
                 return Unauthorized();
             }
-
             var wishlist = await _wishlistService.GetWishlistByUser(userId);
             return Ok(wishlist);
         }
