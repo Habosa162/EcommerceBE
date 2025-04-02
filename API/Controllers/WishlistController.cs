@@ -51,8 +51,8 @@ namespace EComm.API.Controllers
         }
 
         [Authorize]
-        [HttpDelete("{productId}")]
-        public async Task<ActionResult> RemoveFromWishlist(int productId)
+        [HttpDelete("{wishlistId}")]
+        public async Task<ActionResult> RemoveFromWishlist(int wishlistId)
         {
             var userId = getUserID();
             if (string.IsNullOrEmpty(userId))
@@ -60,7 +60,7 @@ namespace EComm.API.Controllers
                 return Unauthorized();
             }
 
-           var success= await _wishlistService.RemoveFromWishlist(userId,productId);
+           var success= await _wishlistService.RemoveFromWishlist(wishlistId);
             if (!success)
             {
                 return BadRequest("Product not found in wish list");

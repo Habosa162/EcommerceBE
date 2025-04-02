@@ -41,14 +41,14 @@ namespace ECommerce.Application.Services
             return true;
         }
 
-        public async Task<bool> RemoveFromWishlist(string userId, int productId)
+        public async Task<bool> RemoveFromWishlist(int wishListItemId)
         {
-            var existingItem = await _wishlistRepository.GetWishListItem(userId, productId);
+            var existingItem = await _wishlistRepository.GetWishListByID(wishListItemId);
             if (existingItem == null)
             {
                 return false;
             }
-            await _wishlistRepository.RemoveFromWishlist(existingItem.Id);
+            await _wishlistRepository.RemoveFromWishlist(wishListItemId);
             return true;
         }
     }

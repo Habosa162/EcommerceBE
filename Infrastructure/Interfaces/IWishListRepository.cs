@@ -6,7 +6,9 @@ namespace ECommerce.Infrastructure.Interfaces
     {
         Task<IEnumerable<WishList>> GetWishlistByUser(string userId);
         Task AddToWishlist(WishList wishlistItem);
-        Task RemoveFromWishlist(int productId);
+        Task RemoveFromWishlist(int wishListItemId);
+
+        Task<WishList> GetWishListByID(int wishListItemId); 
 
         Task<WishList> GetWishListItem(string userId,int productId);
     }

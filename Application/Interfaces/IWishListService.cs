@@ -6,6 +6,6 @@ namespace ECommerce.Application.Interfaces
     {
        public Task<IEnumerable<WishList>> GetWishlistByUser(string userId);
        public Task<bool> AddToWishlist(string userId, int productId);
-       public Task<bool> RemoveFromWishlist(string userId, int productId);
+       public Task<bool> RemoveFromWishlist(int wishListItemId);
     }
 }

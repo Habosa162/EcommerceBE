@@ -19,6 +19,12 @@ namespace ECommerce.Infrastructure.Repositories
             await _context.SaveChangesAsync();  
         }
 
+        public async Task<WishList> GetWishListByID(int wishListItemId)
+        {
+            var item = await _context.WishLists.FirstOrDefaultAsync(w=>w.Id==wishListItemId);
+            return item; 
+        }
+
         public async Task<IEnumerable<WishList>> GetWishlistByUser(string userId)
         {
             return await _context.WishLists.Where(w => w.CustomerId == userId).Include(w=>w.Product).ToListAsync();
@@ -29,9 +35,9 @@ namespace ECommerce.Infrastructure.Repositories
              return await _context.WishLists.FirstOrDefaultAsync(w => w.CustomerId == userId && w.ProductId == productId);
         }
 
-        public async Task RemoveFromWishlist(int productId)
+        public async Task RemoveFromWishlist(int wishListItemId)
         {
-            var DeleteItem = _context.WishLists.FirstOrDefault(w => w.ProductId == productId);
+            var DeleteItem = _context.WishLists.FirstOrDefault(w => w.Id == wishListItemId);
             if (DeleteItem != null)
             {
                  _context.WishLists.Remove(DeleteItem);
