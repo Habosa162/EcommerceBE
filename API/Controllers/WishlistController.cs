@@ -23,7 +23,7 @@ namespace EComm.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<WishList>>> GetWishlist()
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = getUserID();
 
             if (string.IsNullOrEmpty(userId))
             {
@@ -37,7 +37,7 @@ namespace EComm.API.Controllers
         [HttpPost]
         public async Task<ActionResult> AddToWishlist(int productId)
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = getUserID();
             if (string.IsNullOrEmpty(userId))
             {
                 return Unauthorized();
@@ -54,7 +54,7 @@ namespace EComm.API.Controllers
         [HttpDelete("{productId}")]
         public async Task<ActionResult> RemoveFromWishlist(int productId)
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = getUserID();
             if (string.IsNullOrEmpty(userId))
             {
                 return Unauthorized();
@@ -68,6 +68,11 @@ namespace EComm.API.Controllers
             return Ok("Product removed from wish list");
         }
 
+
+        private string getUserID()
+        {
+            return User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        }
 
     }
 }
