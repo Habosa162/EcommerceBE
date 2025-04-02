@@ -88,6 +88,7 @@ namespace ECommerce
             builder.Services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
             builder.Services.AddScoped<IWishListRepository, WishListRepository>();
             builder.Services.AddScoped<IShippingRepository, ShippingRepository>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 
             //Services  
@@ -99,8 +100,8 @@ namespace ECommerce
             builder.Services.AddScoped<IAwsService, AwsService>(); 
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<IShippingServices, ShippingService>();
-            builder.Services.AddScoped<IWishListService, WishlistService>(); 
-
+            builder.Services.AddScoped<IWishListService, WishlistService>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
