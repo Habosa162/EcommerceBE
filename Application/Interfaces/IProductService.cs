@@ -6,6 +6,7 @@ namespace ECommerce.Application.Interfaces
     public interface IProductService
     {
         public  Task<IEnumerable<ProductDTO>> GetAllProducts();
+        public  Task<IEnumerable<ProductDTO>> GetTopSold(int count);
 
         public Task<ProductDTO> GetProductById(int id);
 

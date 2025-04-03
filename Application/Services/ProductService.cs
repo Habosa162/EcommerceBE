@@ -116,6 +116,31 @@ namespace ECommerce.Application.Services
 
         }
 
+        public async Task<IEnumerable<ProductDTO>> GetTopSold( int count)
+        {
+            var products = await _productRepository.GetMostSellingProducts(count);
+
+            var productDtos = products.Select(product => new ProductDTO
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                SubCategoryId = (int)product.SubCategoryId,
+                SubCategoryName = product.SubCategory?.Name,
+                ImageUrl = product.ImgUrl,
+                Stock = product.Stock,
+                AvgRate = product.AvgRate,
+                Brand = product.Brand,
+                DiscountAmount = product.DiscountAmount,
+                IsAccepted = product.IsAccepted,
+                IsDeleted = product.IsDeleted,
+                color = product.color
+            }).ToList();
+            return  productDtos;
+
+        }
+
         public async Task<bool> UpdateProduct(int id, ProductDTO productDto)
         {
             //update img logic?

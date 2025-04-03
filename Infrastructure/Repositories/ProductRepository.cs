@@ -24,6 +24,26 @@ namespace ECommercev.Infrastructure.Repositories
             return false;
         }
 
+        public async Task<IEnumerable<Product>> GetMostSellingProducts(int count)
+        {
+            var topProductIds = _context.OrderItems
+         .GroupBy(o => o.ProductId)
+         .Select(g => new
+         {
+             ProductId = g.Key,
+             TotalSold = g.Sum(o => o.Qty)
+         })
+         .OrderByDescending(g => g.TotalSold)
+         .Take(6) 
+         .Select(g => g.ProductId) 
+         .ToList();
+
+            var topProducts =  _context.Products
+                .Where(p => topProductIds.Contains(p.Id))
+                .ToList();
+            return topProducts;
+        }
+
         public async Task<Product?> GetProductById(int id)
         {
             return await _context.Products.Include(p=>p.SubCategory).FirstOrDefaultAsync(p=>p.Id==id);

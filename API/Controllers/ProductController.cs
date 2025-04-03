@@ -57,5 +57,13 @@ namespace ECommerce.API.Controllers
             if (!deleted) return BadRequest("Delete failed");
             return Ok("Product Deleted");
         }
+
+        [HttpGet("top-sold")]
+        public async Task<IActionResult> GetTopSoldProducts([FromQuery] int count = 6)
+        {
+            var products = await _productService.GetTopSold(count);
+            if (products == null) return NotFound("Product Not Found");
+            return Ok(products);
+        }
     }
 }
