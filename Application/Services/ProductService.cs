@@ -135,7 +135,8 @@ namespace ECommerce.Application.Services
                 DiscountAmount = product.DiscountAmount,
                 IsAccepted = product.IsAccepted,
                 IsDeleted = product.IsDeleted,
-                color = product.color
+                color = product.color,
+                finalPrice = product.FinalPrice
             }).ToList();
             return  productDtos;
 
