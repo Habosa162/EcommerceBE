@@ -12,7 +12,7 @@ namespace ECommerce.Application.Interfaces
 
         public Task<IEnumerable<ProductDTO>> GetProductsBySubCategoryId(int subCateID);
 
-        public Task<Product> CrteateProduct(ProductDTO product, IFormFile imgurl);
+        public Task<Product> CrteateProduct(CreateProductDTO product, IFormFile imgurl);
         public Task<bool> UpdateProduct(int id, ProductDTO product);
         public Task<bool> DeleteProdcut(int id);
 

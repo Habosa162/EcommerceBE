@@ -18,13 +18,13 @@ namespace ECommerce.Domain.Models
         [Required, Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
 
-        [MaxLength(255)]
+        [MaxLength(1000)]
         public string? ImgUrl { get; set; }
 
         [Required]
         public int Stock { get; set; }
 
-        [Range(0, 5)]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal AvgRate { get; set; } = 0.0m;
 
         [ForeignKey("SubCategory")]

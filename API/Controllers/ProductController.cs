@@ -36,7 +36,7 @@ namespace ECommerce.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateProduct([FromForm] ProductDTO productDto, [FromForm] IFormFile productImage)
+        public async Task<IActionResult> CreateProduct([FromForm] CreateProductDTO productDto, [FromForm] IFormFile productImage)
         {
             var product = await _productService.CrteateProduct(productDto, productImage);
             return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, product);

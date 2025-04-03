@@ -16,13 +16,25 @@ namespace ECommerce.Application.Services
             _awsService = awsService;
             _configuration = configuration;
         }
-        public async Task<Product> CrteateProduct(ProductDTO productDto , IFormFile file)
+        public async Task<Product> CrteateProduct(CreateProductDTO productDto, IFormFile file)
         {
-            var imageUrl= "";
+            var imageUrl = "";
+
+            if (productDto.Price < 0 || productDto.DiscountAmount < 0)
+            {
+                throw new ArgumentException("Price and Discount Amount cannot be negative.");
+            }
+
+            if (productDto.Price > 9999999999999999.99m) 
+            {
+                throw new ArgumentException("Price exceeds the maximum allowed value.");
+            }
+
             if (file != null)
             {
-            imageUrl = await _awsService.UploadFileAsync(file, "products");
+                imageUrl = await _awsService.UploadFileAsync(file, "products");
             }
+
             var product = new Product
             {
                 Name = productDto.Name,
@@ -34,12 +46,12 @@ namespace ECommerce.Application.Services
                 AvgRate = productDto.AvgRate,
                 Brand = productDto.Brand,
                 DiscountAmount = productDto.DiscountAmount,
-                IsAccepted = productDto.IsAccepted,
-                IsDeleted = productDto.IsDeleted,
                 color = productDto.color
             };
+
             return await _productRepository.SetProduct(product);
         }
+
 
         public Task<bool> DeleteProdcut(int id)
         {

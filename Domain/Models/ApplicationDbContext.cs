@@ -22,7 +22,7 @@ namespace ECommerce.Domain.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            SeedRoles(modelBuilder); // Seed roles
+            //SeedRoles(modelBuilder); // Seed roles
 
             modelBuilder.Entity<Shipping>()
                 .HasOne(s => s.Order)
