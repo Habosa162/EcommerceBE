@@ -37,5 +37,7 @@ namespace ECommerce.Application.Services
         {
             return await _userRepository.DeleteUser(id);
         }
+
+       
     }
 }

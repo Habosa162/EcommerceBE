@@ -1,6 +1,7 @@
 ﻿using ECommerce.Domain.Models;
 using ECommerce.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.Infrastructure.Repositories
 {
@@ -13,9 +14,9 @@ namespace ECommerce.Infrastructure.Repositories
             _userManager = userManager;
         }
 
-        public async Task<IEnumerable<AppUser>> GetAllUsers()
+        public async Task<List<AppUser>> GetAllUsers()
         {
-            return _userManager.Users.ToList();  
+            return await _userManager.Users.ToListAsync();
         }
 
         public async Task<AppUser> GetUserById(string id)
@@ -47,15 +48,29 @@ namespace ECommerce.Infrastructure.Repositories
             return result.Succeeded;
         }
 
+
+        //(Hard delete)
+        //public async Task<bool> DeleteUser(string id)
+        //{
+        //    var user = await _userManager.FindByIdAsync(id);
+        //    if (user == null) return false;
+
+        //    var result = await _userManager.DeleteAsync(user);
+        //    return result.Succeeded;
+        //}
+
         public async Task<bool> DeleteUser(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
             if (user == null) return false;
 
-            var result = await _userManager.DeleteAsync(user);
+            user.IsActive = false; 
+            var result = await _userManager.UpdateAsync(user);
+
             return result.Succeeded;
         }
 
-        
+
+
     }
 }

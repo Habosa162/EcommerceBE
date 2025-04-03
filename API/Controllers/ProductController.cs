@@ -47,7 +47,7 @@ namespace ECommerce.API.Controllers
         {
             var updated = await _productService.UpdateProduct(id, productDto);
             if (!updated) return BadRequest("Update failed");
-            return Ok("product Updated") ;
+            return Ok(new { message = "Product updated successfully" });
         }
 
         [HttpDelete("{id}")]
