@@ -78,7 +78,8 @@ namespace ECommerce.Application.Services
                 IsAccepted = product.IsAccepted,
                 IsDeleted = product.IsDeleted,
                 color = product.color,
-                finalPrice = product.FinalPrice
+                finalPrice = product.FinalPrice,
+                Category = product.SubCategory.Category.Name
 
             }).ToList();
         }

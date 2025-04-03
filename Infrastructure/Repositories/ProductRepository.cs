@@ -51,7 +51,7 @@ namespace ECommercev.Infrastructure.Repositories
 
         public async Task<IEnumerable<Product>> GetProducts()
         {
-            return await _context.Products.Include(p=>p.SubCategory).ToListAsync();
+            return await _context.Products.Include(p=>p.SubCategory).Include(p=>p.SubCategory.Category).ToListAsync();
         }
 
      

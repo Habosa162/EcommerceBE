@@ -18,6 +18,8 @@
         public string color { get; set; }
         public decimal finalPrice { get; set; }
 
+        public string Category { get; set; }
+
 
     }
 }
