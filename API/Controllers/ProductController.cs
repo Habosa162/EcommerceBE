@@ -55,7 +55,7 @@ namespace ECommerce.API.Controllers
         {
             var deleted = await _productService.DeleteProdcut(id);
             if (!deleted) return BadRequest("Delete failed");
-            return Ok("Product Deleted");
+            return Ok(new { message = "Product Deleted" });
         }
 
         [HttpGet("top-sold")]

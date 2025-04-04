@@ -79,7 +79,7 @@ namespace ECommerce.Application.Services
                 IsDeleted = product.IsDeleted,
                 color = product.color,
                 finalPrice = product.FinalPrice,
-                Category = product.SubCategory.Category.Name
+                Category = product.SubCategory?.Category?.Name ?? "Unknown Category"
 
             }).ToList();
         }
