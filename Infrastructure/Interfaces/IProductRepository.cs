@@ -12,5 +12,6 @@ namespace ECommerce.Infrastructure.Interfaces
         public Task<Product> SetProduct(Product product);
         public Task<bool> UpdateProduct(Product product);
         public Task<bool> DeleteProduct(int id);
+        public Task<IEnumerable<Product>> SearchProductsByName(string name);
     }
 }

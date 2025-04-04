@@ -155,6 +155,22 @@ namespace ECommerce.Application.Services
 
         }
 
+        public async Task<IEnumerable<ProductDTO>> SearchProductsByName(string name)
+        {
+            var products = await _productRepository.SearchProductsByName(name);
+            return products.Select(product => new ProductDTO
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+ 
+                finalPrice = product.FinalPrice,
+                ImageUrl = product.ImgUrl,
+             
+            }).ToList();
+
+        }
+
         public async Task<bool> UpdateProduct(int id, ProductDTO productDto)
         {
             //update img logic?

@@ -65,5 +65,14 @@ namespace ECommerce.API.Controllers
             if (products == null) return NotFound("Product Not Found");
             return Ok(products);
         }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchProducts([FromQuery] string q)
+        {
+            if (string.IsNullOrEmpty(q)) return Ok(new List<ProductDTO>());
+            var products = await _productService.SearchProductsByName(q);
+            if (products == null) return NotFound("Product Not Found");
+            return Ok(products);
+        }
     }
 }
