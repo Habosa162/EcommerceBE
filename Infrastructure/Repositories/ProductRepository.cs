@@ -61,6 +61,11 @@ namespace ECommercev.Infrastructure.Repositories
             return await _context.Products.Where(p => p.SubCategoryId== id).ToListAsync();
         }
 
+        public async Task<IEnumerable<Product>> SearchProductsByName(string name)
+        {
+            return await _context.Products.Where(p => p.Name.ToLower().Contains(name.ToLower())).ToListAsync();
+        }
+
         public async Task<Product> SetProduct(Product product)
         {
             await _context.Products.AddAsync(product);

@@ -79,7 +79,7 @@ namespace ECommerce.Application.Services
                 IsDeleted = product.IsDeleted,
                 color = product.color,
                 finalPrice = product.FinalPrice,
-                Category = product.SubCategory.Category.Name
+                Category = product.SubCategory?.Category?.Name ?? "Unknown Category"
 
             }).ToList();
         }
@@ -153,6 +153,22 @@ namespace ECommerce.Application.Services
                 finalPrice = product.FinalPrice
             }).ToList();
             return  productDtos;
+
+        }
+
+        public async Task<IEnumerable<ProductDTO>> SearchProductsByName(string name)
+        {
+            var products = await _productRepository.SearchProductsByName(name);
+            return products.Select(product => new ProductDTO
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+ 
+                finalPrice = product.FinalPrice,
+                ImageUrl = product.ImgUrl,
+             
+            }).ToList();
 
         }
 

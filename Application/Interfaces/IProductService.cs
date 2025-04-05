@@ -16,5 +16,7 @@ namespace ECommerce.Application.Interfaces
         public Task<bool> UpdateProduct(int id, ProductDTO product);
         public Task<bool> DeleteProdcut(int id);
 
+        public Task<IEnumerable<ProductDTO>> SearchProductsByName(string name);
+
     }
 }

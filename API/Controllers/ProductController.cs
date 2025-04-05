@@ -55,13 +55,22 @@ namespace ECommerce.API.Controllers
         {
             var deleted = await _productService.DeleteProdcut(id);
             if (!deleted) return BadRequest("Delete failed");
-            return Ok("Product Deleted");
+            return Ok(new { message = "Product Deleted" });
         }
 
         [HttpGet("top-sold")]
         public async Task<IActionResult> GetTopSoldProducts([FromQuery] int count = 6)
         {
             var products = await _productService.GetTopSold(count);
+            if (products == null) return NotFound("Product Not Found");
+            return Ok(products);
+        }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchProducts([FromQuery] string q)
+        {
+            if (string.IsNullOrEmpty(q)) return Ok(new List<ProductDTO>());
+            var products = await _productService.SearchProductsByName(q);
             if (products == null) return NotFound("Product Not Found");
             return Ok(products);
         }
