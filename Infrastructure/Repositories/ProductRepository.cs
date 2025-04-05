@@ -46,7 +46,7 @@ namespace ECommercev.Infrastructure.Repositories
 
         public async Task<Product?> GetProductById(int id)
         {
-            return await _context.Products.Include(p=>p.SubCategory).FirstOrDefaultAsync(p=>p.Id==id);
+            return await _context.Products.Include(p=>p.SubCategory).Include(p=>p.SubCategory.Category).FirstOrDefaultAsync(p=>p.Id==id);
         }
 
         public async Task<IEnumerable<Product>> GetProducts()

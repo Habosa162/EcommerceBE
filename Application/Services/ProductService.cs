@@ -102,7 +102,8 @@ namespace ECommerce.Application.Services
                 DiscountAmount = product.DiscountAmount,
                 IsAccepted = product.IsAccepted,
                 IsDeleted = product.IsDeleted,
-                color = product.color
+                color = product.color,
+                Category = product.SubCategory.Category.Name,   
             };
         }
 
